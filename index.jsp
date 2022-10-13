@@ -5,11 +5,7 @@
     <link rel="stylesheet" type="text/css" href="css/index.css"/>
 </head>
 <body>
-    <div class="logo">
-        <div class="logocontent">
-            <a href="/">相城市图书馆</a>
-        </div>
-    </div>
+    <%@ include file="header.jsp" %>
     <div class="out">
         <div class="left">
             <ul>
@@ -29,10 +25,6 @@
         </div>
         <div class="clear"></div>
     </div>
-    <div class="foot">
-        <div class="content">
-            Copyright ©2022 <a href="https://mole9630.top/">摩尔</a> All Rights Reserved
-        </div>
-    </div>
+    <%@ include file="footer.jsp" %>
 </body>
 </html>

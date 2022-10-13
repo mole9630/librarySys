@@ -20,8 +20,11 @@
 
         }
         .log img{
+            width: 400px;
+            height: 90px;
             position: relative;
             left: 50px;
+            top: -10px;
         }
         /* 导航栏 */
         .nav{
@@ -35,7 +38,6 @@
             height: 50px;
             width: 1000px;
             margin: 0 auto;
-
         }
         .nav .nav_colum ul,.nav .nav_colum ul li{
             list-style: none;
@@ -55,7 +57,6 @@
             display: block;
         }
         .nav .nav_colum ul li a:hover{
-
             background-color: #065279;
             color: white;
             opacity:0.85;
@@ -66,7 +67,7 @@
 <body>
     <div class="top"></div>
     <div class="log">
-        <img src="img/index_logo.png">
+        <img src="img/logo.png">
         <div class="nav">
             <div class="nav_colum">
                 <ul>
