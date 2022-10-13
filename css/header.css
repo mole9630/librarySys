@@ -1,0 +1,59 @@
+/* 头部 */
+.top{
+    width: 100%;
+    height: 30px;
+    background-image: linear-gradient(to right,#148D96, #148D96, #065279);
+}
+/* 图片 */
+.log{
+    height: 81px;
+    margin: 0 auto;
+    width: 100%;
+    background-image: url("../img/head_bg.png");
+    position: relative;
+    float: right;
+
+}
+.log img{
+    width: 400px;
+    height: 90px;
+    position: relative;
+    left: 50px;
+    top: -10px;
+}
+/* 导航栏 */
+.nav{
+    width: 1000px;
+    height: 81px;
+    position: absolute;
+    left: 520px;
+    top: 0px;
+}
+.nav_colum{
+    height: 50px;
+    width: 1000px;
+    margin: 0 auto;
+}
+.nav .nav_colum ul,.nav .nav_colum ul li{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.nav .nav_colum ul li{
+    float: left;
+    width: 125px;
+    height: 81px;
+    line-height: 81px;
+    text-align: center;
+}
+.nav .nav_colum ul li a{
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+.nav .nav_colum ul li a:hover{
+    background-color: #065279;
+    color: white;
+    opacity:0.85;
+    filter:alpha(opacity=85);
+}
