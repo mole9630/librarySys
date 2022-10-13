@@ -12,13 +12,13 @@
             <div class="nav_colum">
                 <ul>
                     <li><a href="/">网站首页</a></li>
-                    <li><a href="info.jsp">本馆概况</a></li>
-                    <li><a href="dang.jsp">书目检索</a></li>
-                    <li><a href="jiao.jsp">用户登录</a></li>
-                    <li><a href="info.jsp">科学科研</a></li>
-                    <li><a href="info.jsp">学生工作</a></li>
-                    <li><a href="info.jsp">招生就业</a></li>
-                    <li><a href="info.jsp">学习平台</a></li>
+                    <li><a href="#">本馆概况</a></li>
+                    <li><a href="#">书目检索</a></li>
+                    <li><a href="#">用户登录</a></li>
+                    <li><a href="#">科学科研</a></li>
+                    <li><a href="#">学生工作</a></li>
+                    <li><a href="#">招生就业</a></li>
+                    <li><a href="#">学习平台</a></li>
                 </ul>
             </div>
         </div>
