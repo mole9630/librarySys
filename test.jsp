@@ -4,7 +4,8 @@
     <title>Test页</title>
 </head>
 <body>
-    <%@ include file="header.jsp" %>
-    <%@ include file="footer.jsp" %>
+    <%=
+        request.getAttribute("message")
+    %>
 </body>
 </html>

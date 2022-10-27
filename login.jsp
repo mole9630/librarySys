@@ -9,15 +9,15 @@
     <%@ include file="header.jsp" %>
     <div class="body">
         <div class="all">
-            <form>
+            <form action="/LoginServlet" method="post">
                 <img class="mb-4" id="logo" src="img/login/user_img.jpg" alt="logo">
                 <h1 class="h3 mb-3">请登录</h1>
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="电子邮件">
-                    <small id="emailHelp" class="form-text text-muted">我们永远不会与其他人分享您的电子邮件。</small>
+                    <input type="text" name="userPhone" class="form-control" placeholder="手机号">
+                    <small id="phoneHelp" class="form-text text-muted">我们永远不会与其他人分享您的手机号。</small>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="密码">
+                    <input type="password" name="userPassword" class="form-control" placeholder="密码">
                     <small id="passwordHelp" class="form-text text-muted">密码必须8位以上字母、数字及特殊字符组合,且同时密码必须同时包含有数字、字母和特殊字符。</small>
                 </div>
                 <div class="form-group form-check">
