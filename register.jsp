@@ -2,54 +2,45 @@
 <html>
 <head>
     <title> 注册 - 相城市图书馆</title>
-    <link rel="stylesheet" type="text/css" href="css/register.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap-4.6.1-dist/css/bootstrap.min.css">
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<article>
-    <div id="form-div">
-        <form id="reg-form" action="" method="">
-            <table>
-                <tr>
-                    <td>用户名</td>
-                    <td>
-                        <input type="text" name="uid" id="uid" value="" placeholder="请输入用户名" required="required" autofocus="autofocus" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>密码</td>
-                    <td>
-                        <input type="password" name="psw1" id="psw1" value="" placeholder="请输入密码" required="required" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>确认密码</td>
-                    <td>
-                        <input type="password" name="psw2" id="psw2" value="" placeholder="请输入确认密码" required="required" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>邮箱</td>
-                    <td>
-                        <input type="email" name="email" id="email" value="" pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>昵称</td>
-                    <td>
-                        <input type="text" name="nickname" id="nickname" value="" />
-                    </td>
-                </tr>
-            </table>
-            <div class="buttons">
-                <input type="submit" style="margin-right: 20px;margin-top: 20px;" value="注  册" />
-                <a href="login.jsp"><input type="button" style="margin-right: 45px;margin-top: 20px;" value="有账户，去登录" /></a>
-            </div>
-            <br class="clear">
-        </form>
+    <%@ include file="header.jsp" %>
+    <div class="body">
+        <div class="all">
+            <form action="/LoginServlet" method="post">
+                <img class="mb-4" id="logo" src="img/login/user_img.jpg" alt="logo">
+                <h1 class="h3 mb-3">请注册新的账号</h1>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入手机号">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="请输入密码">
+                    <small id="passwordHelp" class="form-text text-muted">密码必须8位以上字母、数字及特殊字符组合,且同时密码必须同时包含有数字、字母和特殊字符。</small>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="请确认密码">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="请输入电子邮箱">
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <input type="text" class="form-control" placeholder="请输入姓名">
+                    </div>
+                    <div class="form-group col">
+                        <input type="email" class="form-control" placeholder="请输入身份证号">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入家庭住址">
+                </div>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
+            </form>
+        </div>
     </div>
-    <div style="width: 100%; height: 100px"></div>
-</article>
-<%@ include file="footer.jsp" %>
+    <%@ include file="footer.jsp" %>
 </body>
 </html>
