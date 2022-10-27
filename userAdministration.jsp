@@ -25,15 +25,11 @@
         </ul>
     </div>
     <div class="right">
-        <jsp:useBean id="connect" class="db.Connect" scope="application"></jsp:useBean>
+        <jsp:useBean id="connect" class="com.librarysys.db.Connect" scope="application"></jsp:useBean>
         <%=connect.linkMysql()%>
     </div>
     <div class="clear"></div>
 </div>
-<div class="foot">
-    <div class="content">
-        联系方式：1243546352
-    </div>
 </div>
 </body>
 </html>

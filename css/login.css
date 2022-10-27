@@ -1,0 +1,22 @@
+.body {
+    background-color: #F6F6F6;
+}
+.all {
+    height: 80%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+
+    text-align: center;
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.form-text {
+    text-align: left;
+}
+#logo {
+    width: 80px;
+    height: 80px;
+}
