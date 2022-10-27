@@ -21,9 +21,13 @@
                     <small id="passwordHelp" class="form-text text-muted">密码必须8位以上字母、数字及特殊字符组合,且同时密码必须同时包含有数字、字母和特殊字符。</small>
                 </div>
                 <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">1天内免登录</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">检查是不是机器人?</label>
                 </div>
+
                 <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
             </form>
         </div>
