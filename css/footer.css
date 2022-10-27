@@ -1,10 +1,11 @@
-.footer{
+.footer {
     width: 100%;
     height: 30px;
     background-color: #148D96;
     text-align: center;
     padding: 10px 0;
 }
-.footer a{
+.footer a {
+    line-height: 20px;
     text-decoration: none;
 }
