@@ -9,7 +9,7 @@
     <%@ include file="header.jsp" %>
     <div class="body">
         <div class="all">
-            <form action="${pageContext.request.contextPath}/RegisterServlet" method="post">
+            <form action="/RegisterServlet" method="post">
                 <img class="mb-4" id="logo" src="img/login/user_img.jpg" alt="logo">
                 <h1 class="h3 mb-3">请注册新的账号</h1>
                 <div class="form-group">
