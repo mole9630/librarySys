@@ -42,23 +42,22 @@ public class Login {
 
         DBConnection dbc = new DBConnection();
         con = dbc.getDBConnection();
-        int n = -1;
 
         try {
-            String sql = "SELECT * FROM user WHERE u_phone=? and u_password=?";
+            String sqlStr = "SELECT * FROM user WHERE u_phone=? and u_password=?";
 
-            pstm = con.prepareStatement(sql);
+            pstm = con.prepareStatement(sqlStr);
             pstm.setString(1, userPhone);
             pstm.setString(2, userPassword);
             sqlResult = pstm.executeQuery();
 
             if (sqlResult.next()){
                 statusCode = 1;
-                System.out.print("[info] " + userPhone + "用户登录成功!\n");
+                System.out.println("[info] " + userPhone + "用户登录成功!");
             }
             else {
                 statusCode = 0;
-                System.out.print("[info] " + userPhone + "用户不存在或者密码错误,请检查后重试.\n");
+                System.out.println("[info] " + userPhone + "用户不存在或者密码错误,请检查后重试.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -23,5 +23,21 @@ public class RegisterServlet extends HttpServlet {
         String userAddress = request.getParameter("u_address");
         int statusCode = -1;
         String resuleStr = null;
+
+        Register reg = new Register();
+        statusCode = reg.userRegister(userPhone, userPassword, userRePassword, userEmail, userName, userIdentificationNumber, userAddress);
+
+        if (statusCode == 1) {
+            resuleStr = "登录成功 --> 欢迎您:" + userPhone;
+        }
+        else if (statusCode == 0) {
+            resuleStr = userPhone + "用户不存在或者密码错误,请检查后重试.";
+        }
+        else {
+            resuleStr = "非法请求";
+        }
+
+        request.setAttribute("message", resuleStr);
+        request.getRequestDispatcher("test.jsp").forward(request, response);
     }
 }
