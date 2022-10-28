@@ -84,7 +84,7 @@ public class Register {
         DBConnection dbc = new DBConnection();
         con = dbc.getDBConnection();
 
-        String sqlStr = "INSERT INTO user(u_name, u_password, u_deposit, u_identification_number, u_phone, u_mail, u_address, u_status) VALUES(?, ?, 0, 0, ?, ?, ?, ?, ?, 1)";
+        String sqlStr = "INSERT INTO user(u_name, u_password, u_deposit, u_money, u_identification_number, u_phone, u_mail, u_address, u_status) VALUES(?, ?, 0, 0, ?, ?, ?, ?, 1)";
 
 
         DBUtil dbu = new DBUtil();
@@ -96,7 +96,6 @@ public class Register {
             pstm.setString(4, userPhone);
             pstm.setString(5, userEmail);
             pstm.setString(6, userAddress);
-            pstm.setString(7, userPassword);
             statusCode = pstm.executeUpdate(sqlStr);
 
             if (statusCode > 0){
