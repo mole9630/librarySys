@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static java.lang.System.out;
-
 public class Login {
     private String userPhone;
     private String userPassword;

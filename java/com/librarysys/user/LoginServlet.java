@@ -16,8 +16,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userPhone = request.getParameter("userPhone");
-        String userPassword = request.getParameter("userPassword");
+        String userPhone = request.getParameter("u_phone");
+        String userPassword = request.getParameter("u_password");
         int statusCode = -1;
         String resuleStr = null;
 
@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         request.setAttribute("message", resuleStr);
-        request.getRequestDispatcher("librarySys/test.jsp").forward(request, response);
+        request.getRequestDispatcher("test.jsp").forward(request, response);
 
     }
 }
