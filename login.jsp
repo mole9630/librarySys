@@ -8,7 +8,7 @@
 <body>
     <%@ include file="header.jsp" %>
     <div class="body">
-        <div class="all">
+        <div class="login_all">
             <form action="/LoginServlet" method="post">
                 <img class="mb-4" id="logo" src="img/login/user_img.jpg" alt="logo">
                 <h1 class="h3 mb-3">请登录</h1>
@@ -27,11 +27,19 @@
                     <input type="checkbox" class="form-check-input" id="verification_check">
                     <label class="form-check-label" for="verification_check">检查是不是机器人?</label>
                 </div>
-
-                <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
+                <div class="row">
+                    <div class="col-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
+                    </div>
+                    <div class="col">
+                        <a href="register.jsp">
+                            <button class="btn btn-primary btn-lg btn-block">还没有账号去注册</button>
+                        </a>
+                    </div>
+                </div>
             </form>
         </div>
-        <%@ include file="footer.jsp" %>
     </div>
+    <%@ include file="footer.jsp" %>
 </body>
 </html>

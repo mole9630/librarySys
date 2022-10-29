@@ -8,8 +8,8 @@
 <body>
     <%@ include file="header.jsp" %>
     <div class="body">
-        <div class="all">
-            <form action="/RegisterServlet" method="post">
+        <div class="register_all">
+            <form action="/RegisterServlet" method="post" class="form-signin">
                 <img class="mb-4" id="logo" src="img/login/user_img.jpg" alt="logo">
                 <h1 class="h3 mb-3">请注册新的账号</h1>
                 <div class="form-group">
@@ -30,17 +30,29 @@
                         <input type="text" name="u_name" class="form-control" placeholder="请输入姓名">
                     </div>
                     <div class="form-group col">
-                        <input type="email" name="u_identification_number" class="form-control" placeholder="请输入身份证号">
+                        <input type="text" name="u_identification_number" class="form-control" placeholder="请输入身份证号">
                     </div>
                 </div>
-
+                <div class="form-group">
+                    <input type="date" name="u_address" class="form-control">
+                </div>
                 <div class="form-group">
                     <input type="text" name="u_address" class="form-control" placeholder="请输入家庭住址">
                 </div>
-                <button class="btn btn-primary btn-lg btn-block" type="submit">登录</button>
+                <div class="row">
+                    <div class="col-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">注册</button>
+                    </div>
+                    <div class="col">
+                        <a>
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">有账号去登录</button>
+                        </a>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
     <%@ include file="footer.jsp" %>
 </body>
 </html>
+

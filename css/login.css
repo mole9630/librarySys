@@ -1,13 +1,23 @@
 .body {
     background-color: #F6F6F6;
 }
-.all {
-    height: 80%;
+.login_all {
+    height: 75%;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
     align-items: center;
-
+    text-align: center;
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.register_all {
+    height: 90%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
     text-align: center;
     width: 400px;
     margin: 0 auto;
