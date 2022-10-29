@@ -4,12 +4,18 @@
     <title> 注册 - 相城市图书馆</title>
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <link rel="stylesheet" type="text/css" href="bootstrap-4.6.1-dist/css/bootstrap.min.css">
+    <script>
+        function regAction(){
+            document.reg_form.action="login.jsp";
+            document.reg_form.submit();
+        }
+    </script>
 </head>
 <body>
     <%@ include file="header.jsp" %>
     <div class="body">
         <div class="register_all">
-            <form action="/RegisterServlet" method="post" class="form-signin">
+            <form action="/RegisterServlet" method="post" name="reg_form">
                 <img class="mb-4" id="logo" src="img/login/user_img.jpg" alt="logo">
                 <h1 class="h3 mb-3">请注册新的账号</h1>
                 <div class="form-group">
@@ -45,7 +51,7 @@
                     </div>
                     <div class="col">
                         <a>
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">有账号去登录</button>
+                            <button class="btn btn-primary btn-lg btn-block" onclick="regAction()">有账号去登录</button>
                         </a>
                     </div>
                 </div>
