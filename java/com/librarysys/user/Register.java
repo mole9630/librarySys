@@ -96,7 +96,7 @@ public class Register {
             pstm.setString(4, userPhone);
             pstm.setString(5, userEmail);
             pstm.setString(6, userAddress);
-            statusCode = pstm.executeUpdate(sqlStr);
+            statusCode = pstm.executeUpdate();
 
             if (statusCode > 0){
                 System.out.println("[info] " + userPhone + "用户注册成功!");

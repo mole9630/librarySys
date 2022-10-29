@@ -28,10 +28,10 @@ public class RegisterServlet extends HttpServlet {
         statusCode = reg.userRegister(userPhone, userPassword, userRePassword, userEmail, userName, userIdentificationNumber, userAddress);
 
         if (statusCode == 1) {
-            resuleStr = "登录成功 --> 欢迎您:" + userPhone;
+            resuleStr = "注册成功 --> 欢迎您:" + userName;
         }
         else if (statusCode == 0) {
-            resuleStr = userPhone + "用户不存在或者密码错误,请检查后重试.";
+            resuleStr = userPhone + "已存在";
         }
         else {
             resuleStr = "非法请求";
