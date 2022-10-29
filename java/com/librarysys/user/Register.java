@@ -101,11 +101,8 @@ public class Register {
             if (statusCode > 0){
                 System.out.println("[info] " + userPhone + "用户注册成功!");
             }
-            else if (statusCode == 0){
-                System.out.println("[info] " + userPhone + "用户注册失败,请稍后重试.");
-            }
             else {
-                System.out.println("[info] 非法请求");
+                System.out.println("[info] " + userPhone + "用户注册失败,可能是用户已存在,请稍后重试.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

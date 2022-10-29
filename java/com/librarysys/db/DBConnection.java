@@ -7,7 +7,7 @@ public class DBConnection {
     public static String sqlUserName = "root";
     public static String sqlUserPassword = "root";
     public static String dbName = "library";
-    public static String sqlUrl = "jdbc:mysql://127.0.0.1:3306/" + dbName + "?user=" + sqlUserName + "&password=" + sqlUserPassword + "&useUnicode=true&characterEncoding=utf8&jdbcCompliantTruncation=false";
+    public static String sqlUrl = "jdbc:mysql://127.0.0.1:3306/" + dbName + "?user=" + sqlUserName + "&password=" + sqlUserPassword + "&useUnicode=true&characterEncoding=utf8";
 
 
     public Connection getDBConnection() {
@@ -39,12 +39,12 @@ public class DBConnection {
     }
 
     // 测试连接
-    public static void main(String[] args) {
-        DBConnection dbc = new DBConnection();
-        Connection con = null;
-        con = dbc.getDBConnection();
-        if (con != null){
-            System.out.println("连接成功!");
-        }
-    }
+//    public static void main(String[] args) {
+//        DBConnection dbc = new DBConnection();
+//        Connection con = null;
+//        con = dbc.getDBConnection();
+//        if (con != null){
+//            System.out.println("连接成功!");
+//        }
+//    }
 }

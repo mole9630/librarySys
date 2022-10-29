@@ -4,6 +4,8 @@
     <title> 注册 - 相城市图书馆</title>
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <link rel="stylesheet" type="text/css" href="bootstrap-4.6.1-dist/css/bootstrap.min.css">
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script src="js/verificationCode.js"></script>
     <script>
         function regAction(){
             document.reg_form.action="login.jsp";
@@ -44,6 +46,14 @@
                 </div>
                 <div class="form-group">
                     <input type="text" name="u_address" class="form-control" placeholder="请输入家庭住址">
+                </div>
+                <div class="row">
+                    <div class="form-group col-7">
+                        <input type="text" name="verificationCode" class="form-control" placeholder="验证码">
+                    </div>
+                    <div class="form-group col">
+                        <canvas id="canvas" width="100" height="43" onclick="click()"></canvas>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-4">
