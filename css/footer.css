@@ -10,6 +10,10 @@
     color: #efefef;
     text-decoration: none;
     line-height: 25px;
+    outline: 0;
+    -webkit-transition: color .2s ease-out,border .2s ease-out,opacity .2s ease-out;
+    -moz-transition: color .2s ease-out,border .2s ease-out,opacity .2s ease-out;
+    transition: color .2s ease-out,border .2s ease-out,opacity .2s ease-out;
 }
 .footer a:hover {
     color: #9cecb4;
