@@ -52,7 +52,7 @@
                         <input type="text" name="verificationCode" class="form-control" placeholder="验证码">
                     </div>
                     <div class="form-group col">
-                        <canvas id="canvas" width="100" height="43" onclick="click()"></canvas>
+                        <canvas id="canvas" width="100" height="43" onclick="clickCode()"></canvas>
                     </div>
                 </div>
                 <div class="row">

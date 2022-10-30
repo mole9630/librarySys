@@ -39,12 +39,12 @@ public class DBConnection {
     }
 
     // 测试连接
-//    public static void main(String[] args) {
-//        DBConnection dbc = new DBConnection();
-//        Connection con = null;
-//        con = dbc.getDBConnection();
-//        if (con != null){
-//            System.out.println("连接成功!");
-//        }
-//    }
+    public static void main(String[] args) {
+        DBConnection dbc = new DBConnection();
+        Connection con = null;
+        con = dbc.getDBConnection();
+        if (con != null){
+            System.out.println("连接成功!");
+        }
+    }
 }
