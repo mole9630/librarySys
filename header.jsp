@@ -17,7 +17,7 @@
                         <li><a href="#">用户登录</a></li>
                         <li><a href="#">科学科研</a></li>
                         <li><a href="#">学生工作</a></li>
-                        <li><a href="login.jsp">用户登录</a></li>
+                        <li><a href="/admin">用户登录</a></li>
                         <li><a href="register.jsp">用户注册</a></li>
                     </ul>
                 </div>

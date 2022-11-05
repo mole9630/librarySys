@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="remember_me">
+                    <input type="checkbox" class="form-check-input" name="remember_me" id="remember_me" value="1">
                     <label class="form-check-label" for="remember_me">1天内免登录</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="checkbox" class="form-check-input" id="verification_check">
