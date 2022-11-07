@@ -1,0 +1,72 @@
+.left-nav {
+    position: relative;
+    width: 200px;
+    height: 100%;
+    border: 1px solid rgb(217, 217, 217);
+}
+
+.text-left:hover,.card .card-header h2:hover {
+    background: white;
+    text-decoration: none;
+}
+
+.left-nav .active {
+    color: rgb(20, 141, 250);
+}
+
+.left-nav .box-select-menu-title:hover, .left-nav .box-select-text:hover {
+    cursor: pointer;
+}
+
+.left-nav .box-select-menu-title {
+    width: 100%;
+}
+
+.btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;
+}
+
+.card-header {
+    padding: 0;
+}
+
+.card-body {
+    padding: 5px 20px;
+}
+
+.btn-content {
+    background: rgb(255, 255, 255);
+}
+
+.box-select {
+    margin: 0;
+    list-style: none;
+    padding-left: 24px;
+}
+
+.box-select-item {
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 5px;
+}
+
+.btn-content:hover {
+    background: rgb(217, 217, 217);
+}
+
+.left-nav-icon {
+    color: rgb(217, 217, 217);
+    width: 20px;
+    margin-right: 10px;
+}
+
+.box-select-text {
+    font-size: 16px;
+    color: black;
+}
+
+.box-select-menu-title {
+    color: rgb(128, 128, 128);
+    font-size: 15px;
+}
