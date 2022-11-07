@@ -6,11 +6,10 @@
 <body>
     <%@ include file="header.jsp" %>
     <div class="content">
-        <div class="yhgl">用户管理</div>
-        <div class="xsgl">学生管理</div>
-        <div class="tsgl">图书管理</div>
-        <div class="tsjy">图书借阅</div>
-        <div class="tsyj">图书预警</div>
+        <div class="info" style="text-align: center;font-size: 20px">
+            开发中...<br>
+            敬请期待...
+        </div>
     </div>
     <%@ include file="footer.jsp" %>
 </body>
