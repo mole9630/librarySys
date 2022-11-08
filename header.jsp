@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>header</title>
-    <link rel="stylesheet" type="text/css" href="css/header.css">
-    <link rel="stylesheet" type="text/css" href="fontawesome-free-6.2.0-web/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/header.css">
+    <link rel="stylesheet" type="text/css" href="assets/plugins/fontawesome-free-6.2.0-web/css/all.min.css">
 </head>
 <body>
     <div class="top">
         <div class="log">
-            <img src="img/logo.png">
+            <img src="assets/img/logo.png">
             <div class="nav">
                 <div class="nav_colum">
                     <ul>

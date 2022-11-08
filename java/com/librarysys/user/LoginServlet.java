@@ -27,22 +27,23 @@ public class LoginServlet extends HttpServlet {
         statusCode = login.userLogin(userPhone, userPassword);
 
         if (statusCode == 1) {
-            resuleStr = "登录成功 --> 欢迎您:" + userPhone;
+//            resuleStr = "登录成功 --> 欢迎您:" + userPhone;
             login = new Login(userPhone, userPassword);
             request.getSession().setAttribute("user", login);
+            response.sendRedirect("admin/home.jsp");
 //            if (selectRememberMe.equals("1")) {
 //                request.getSession().setAttribute("user", login);
 //            }
         }
         else if (statusCode == 0) {
             resuleStr = userPhone + "用户不存在或者密码错误,请检查后重试.";
+            request.setAttribute("message", resuleStr);
+            request.getRequestDispatcher("test.jsp").forward(request, response);
         }
         else {
             resuleStr = "非法请求";
+            request.setAttribute("message", resuleStr);
+            request.getRequestDispatcher("test.jsp").forward(request, response);
         }
-
-        request.setAttribute("message", resuleStr);
-        request.getRequestDispatcher("test.jsp").forward(request, response);
-
     }
 }

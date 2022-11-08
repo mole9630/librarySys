@@ -10,6 +10,7 @@ import java.sql.SQLException;
 public class Login {
     private String userPhone;
     private String userPassword;
+    private String isAdministrator;
 
     // 构造方法
     public Login() {
@@ -32,6 +33,12 @@ public class Login {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
+    public String getIsAdministrator() {
+        return isAdministrator;
+    }
+    public void setIsAdministrator(String isAdministrator) {
+        this.isAdministrator = isAdministrator;
+    }
 
     // 判断用户是否存在
     public int userLogin(String userPhone, String userPassword) {
@@ -44,7 +51,7 @@ public class Login {
         con = dbc.getDBConnection();
 
         try {
-            String sqlStr = "SELECT * FROM user WHERE u_phone=? and u_password=?";
+            String sqlStr = "SELECT u_status FROM user WHERE u_phone=? and u_password=?";
 
             pstm = con.prepareStatement(sqlStr);
             pstm.setString(1, userPhone);

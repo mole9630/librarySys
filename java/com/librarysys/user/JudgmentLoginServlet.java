@@ -16,19 +16,22 @@ public class JudgmentLoginServlet extends HttpServlet {
         String resuleStr = null;
         boolean flag = true;
         if (login == null) {
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+//            request.getRequestDispatcher("login.jsp").forward(request, response); // 能正常运行
+            response.sendRedirect("login.jsp");  //= 报出NullPointerException的错误
+
+
 //            response.getWriter().println("您还未登录,请先去<a href='login.jsp'>登录</a>");
 //            response.getWriter().print("123");
-//            response.sendRedirect("login.jsp");
         }
         else {
             flag = false;
             response.getWriter().println("欢迎您" + login.getUserPhone() + ",<a href='/LoginOutServlet'>退出</a>");
             cookie = new Cookie("JSESSIONID", session.getId());
             cookie.setMaxAge(60 * 60 * 24 * 3); // cookie的存在周期为3天
-            resuleStr = "登录成功 --> 欢迎您:" + login.getUserPhone();
-            request.setAttribute("message", resuleStr);
-            request.getRequestDispatcher("test.jsp").forward(request, response);
+//            resuleStr = "登录成功 --> 欢迎您:" + login.getUserPhone();
+//            request.setAttribute("message", resuleStr);
+//            request.getRequestDispatcher("test.jsp").forward(request, response);
+            response.sendRedirect("admin/home.jsp");
         }
         cookie.setPath("/");
         response.addCookie(cookie);
