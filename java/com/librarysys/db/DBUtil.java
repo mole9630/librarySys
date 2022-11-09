@@ -16,9 +16,12 @@ public class DBUtil {
         con = dbc.getDBConnection();
         int n = -1;
         try {
+            con.setAutoCommit(false); //开启事务
             pstm = con.prepareStatement(sqlStr);
             n = pstm.executeUpdate();
+            con.commit(); //提交事务
         } catch (SQLException e) {
+            con.rollback(); //回滚事务
             e.printStackTrace();
         } finally {
             dbc.closeDB(con, pstm, rs);

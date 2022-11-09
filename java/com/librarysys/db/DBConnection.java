@@ -7,7 +7,7 @@ public class DBConnection {
     public static String sqlUserName = "root";
     public static String sqlUserPassword = "root";
     public static String dbName = "library";
-    public static String sqlUrl = "jdbc:mysql://127.0.0.1:3306/" + dbName + "?user=" + sqlUserName + "&password=" + sqlUserPassword + "&useUnicode=true&characterEncoding=utf8";
+    public static String sqlUrl = "jdbc:mysql://127.0.0.1:3306/" + dbName + "?user=" + sqlUserName + "&password=" + sqlUserPassword + "&userSSL=false&useUnicode=true&characterEncoding=utf8";
 
 
     public Connection getDBConnection() {
