@@ -1,20 +1,23 @@
 package com.librarysys.db;
 
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+
+import javax.sql.DataSource;
+import java.io.FileInputStream;
 import java.sql.*;
+import java.util.Properties;
 
 public class DBConnection {
-    public static String strcom = "com.mysql.cj.jdbc.Driver";
-    public static String sqlUserName = "root";
-    public static String sqlUserPassword = "root";
-    public static String dbName = "library";
-    public static String sqlUrl = "jdbc:mysql://127.0.0.1:3306/" + dbName + "?user=" + sqlUserName + "&password=" + sqlUserPassword + "&userSSL=false&useUnicode=true&characterEncoding=utf8";
-
-
     public Connection getDBConnection() {
             Connection con = null;
         try {
-            Class.forName(strcom);
-            con = DriverManager.getConnection(sqlUrl);
+            Properties prop = new Properties();
+            System.out.println(System.getProperty("user.dir"));
+            prop.load(new FileInputStream("src/main/java/com/librarysys/db/druid.properties"));
+            // 获取连接池对象
+            DataSource dataSource = DruidDataSourceFactory.createDataSource(prop);
+            // 获取对应数据库连接Connection
+            con = dataSource.getConnection();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

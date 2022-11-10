@@ -44,13 +44,12 @@ public class DBUtil {
     }
 
 
-
-//    public static void main(String[] args) {
-//        String sql = "select * from user";
-//        DBUtil dbu = new DBUtil();
-//        rs = dbu.querySql(sql);
-//        if (rs != null){
-//            System.out.println("查询成功!");
-//        }
-//    }
+    public static void main(String[] args) {
+        String sql = "select * from user";
+        DBUtil dbu = new DBUtil();
+        rs = dbu.querySql(sql);
+        if (rs != null){
+            System.out.println("查询成功!");
+        }
+    }
 }
