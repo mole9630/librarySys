@@ -13,7 +13,7 @@ public class DBConnection {
         try {
             Properties prop = new Properties();
             System.out.println(System.getProperty("user.dir"));
-            prop.load(new FileInputStream("src/main/java/com/librarysys/db/druid.properties"));
+            prop.load(new FileInputStream(System.getProperty("user.dir") + "/src/main/java/com/librarysys/db/druid.properties"));
             // 获取连接池对象
             DataSource dataSource = DruidDataSourceFactory.createDataSource(prop);
             // 获取对应数据库连接Connection

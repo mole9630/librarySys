@@ -2,10 +2,10 @@
 <html>
 <head>
     <title> 注册 - 相城市图书馆</title>
-    <link rel="stylesheet" type="text/css" href="css/login.css">
-    <link rel="stylesheet" type="text/css" href="bootstrap-4.6.1-dist/css/bootstrap.min.css">
-    <script src="js/jquery-3.6.1.min.js"></script>
-    <script src="js/verificationCode.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/login.css">
+    <link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-4.6.1-dist/css/bootstrap.min.css">
+    <script src="assets/js/jquery-3.6.1.min.js"></script>
+    <script src="assets/js/verificationCode.js"></script>
     <script>
         function regAction(){
             document.reg_form.action="login.jsp";
@@ -18,7 +18,7 @@
     <div class="body">
         <div class="register_all">
             <form action="/RegisterServlet" method="post" name="reg_form">
-                <img class="mb-4" id="logo" src="img/login/user_img.jpg" alt="logo">
+                <img class="mb-4" id="logo" src="assets/img/login/user_img.jpg" alt="logo">
                 <h1 class="h3 mb-3">请注册新的账号</h1>
                 <div class="form-group">
                     <input type="text" name="u_phone" class="form-control" placeholder="请输入手机号">
