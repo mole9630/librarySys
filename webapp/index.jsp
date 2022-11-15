@@ -6,7 +6,7 @@
 <body>
     <%@ include file="header.jsp" %>
     <div class="content">
-        <div class="info" style="text-align: center;font-size: 20px">
+        <div class="info" style="text-align: center;font-size: 20px;">
             开发中...<br>
             敬请期待...
         </div>

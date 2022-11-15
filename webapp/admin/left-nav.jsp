@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8"/>
     <title></title>
-    <link rel="stylesheet" href="../../bootstrap-4.6.1-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/admin/left-nav.css">
-    <link rel="stylesheet" href="../../fontawesome-free-6.2.0-web/css/all.min.css">
-    <script src="../../js/jquery-3.6.1.min.js"></script>
-    <script src="../../bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
-    <script src="../../js/admin/home.js"></script>
+    <link rel="stylesheet" href="../../assets/plugins/bootstrap-4.6.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/admin/left-nav.css">
+    <link rel="stylesheet" href="../../assets/plugins/fontawesome-free-6.2.0-web/css/all.min.css">
+    <script src="../../assets/js/jquery-3.6.1.min.js"></script>
+    <script src="../../assets/plugins/bootstrap-4.6.1-dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/admin/home.js"></script>
 </head>
 <body>
     <div class="left-nav">

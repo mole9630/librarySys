@@ -5,6 +5,8 @@
     color: #efefef;
     text-align: center;
     padding: 0;
+    bottom: 0;
+    position: fixed;
 }
 .footer a {
     color: #efefef;

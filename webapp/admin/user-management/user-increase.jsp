@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>用户增加</title>
-    <link rel="stylesheet" href="../../css/admin/user_added.css">
+    <link rel="stylesheet" href="../../assets/css/admin/home.css">
 </head>
 <body>
 <%@ include file="../left-nav.jsp"%>
