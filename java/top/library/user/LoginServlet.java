@@ -42,15 +42,14 @@ public class LoginServlet extends HttpServlet {
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
         //执行方法
-        List<User> users = userMapper.selectLogin(userPhone, userPassword);
-        System.out.println(users);
+        User user = userMapper.selectLogin(userPhone, userPassword);
 
         // 释放资源
         sqlSession.close();
 
-        if (users != null) {
+        if (user != null) {
             resuleStr = "登录成功 --> 欢迎您:" ;
-            request.getSession().setAttribute("user", users);
+            request.getSession().setAttribute("user", user);
             response.sendRedirect("admin/home.jsp");
         }
         else {

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <package name="com.mybatis.pojo"/>
+        <package name="top.library.user.pojo"/>
     </typeAliases>
     
     <!-- environments可以配置多个数据数据库连接环境 通过default属性切换不同的environments -->

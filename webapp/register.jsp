@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="date" name="u_address" class="form-control">
+                    <input type="date" name="u_birthday" class="form-control">
                 </div>
                 <div class="form-group">
                     <input type="text" name="u_address" class="form-control" placeholder="请输入家庭住址">

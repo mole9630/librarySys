@@ -33,6 +33,16 @@ public class User {
         this.uIdentity = uIdentity;
     }
 
+    // 注册
+    public User(String uPhone, String uPassword, String uEmail, String uName, String uIdentificationNumber, String uAddress) {
+        this.uPhone = uPhone;
+        this.uPassword = uPassword;
+        this.uEmail = uEmail;
+        this.uName = uName;
+        this.uIdentificationNumber = uIdentificationNumber;
+        this.uAddress = uAddress;
+    }
+
     // Getter & Setter
     public Integer getuCardId() {
         return uCardId;

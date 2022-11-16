@@ -6,7 +6,29 @@
     namespace 为名称空间
 -->
 <mapper namespace="top.library.user.mapper.UserMapper">
-    <select id="selectLogin" resultType="top.library.user.pojo.User">
+
+<resultMap id="userResultMap" type="User">
+    <result column="u_card_id" property="uCardId"/>
+    <result column="u_name" property="uName"/>
+    <result column="u_password" property="uPassword"/>
+    <result column="u_deposit" property="uDeposit"/>
+    <result column="u_money" property="uMoney"/>
+    <result column="u_birthday" property="uBirthday"/>
+    <result column="u_identification_number" property="uIdentificationNumber"/>
+    <result column="u_phone" property="uPhone"/>
+    <result column="u_email" property="uEmail"/>
+    <result column="u_address" property="uAddress"/>
+    <result column="u_status" property="uStatus"/>
+    <result column="u_identity" property="uIdentity"/>
+</resultMap>
+    <!--登录功能(通过手机号及密码查询)-->
+    <select id="selectLogin" resultMap="userResultMap">
         select * from user where u_phone = #{userPhone} and u_password = #{userPassword}
     </select>
+
+    <!--注册功能-->
+    <insert id="insertRegister" useGeneratedKeys="true" keyProperty="uCardId">
+        INSERT INTO user(u_name, u_password, u_deposit, u_money, u_identification_number, u_phone, u_email, u_birthday, u_address, u_status, u_identity)
+            VALUES(#{uName}, #{uPassword}, 0, 0, #{uIdentificationNumber}, #{uPhone}, #{uEmail}, #{uBirthday}, #{uAddress}, 1, 0)
+    </insert>
 </mapper>
