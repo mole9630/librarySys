@@ -4,6 +4,9 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import top.library.log.Tools;
+import top.library.log.mapper.LogMapper;
+import top.library.log.pojo.Log;
 import top.library.user.mapper.UserMapper;
 import top.library.user.pojo.User;
 
@@ -56,7 +59,9 @@ public class RegisterServlet extends HttpServlet {
 
             // 获取Mapper对象接口的代理对象
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            LogMapper logMapper = sqlSession.getMapper(LogMapper.class);
 
+            // 设置user对象值
             User user = new User();
             user.setuPhone(userPhone);
             user.setuPassword(userPassword);
@@ -68,6 +73,14 @@ public class RegisterServlet extends HttpServlet {
 
             //执行方法
             statusCode = userMapper.insertRegister(user);
+
+            // 写入登陆日志
+            Tools tools = new Tools();
+            Log log = new Log();
+            log.setuCardId(user.getuCardId());
+            log.setlStartTime(tools.getTimestamp());
+            log.setlType("5005");
+            logMapper.insertLog(log);
 
             // 提交事务
             sqlSession.commit();

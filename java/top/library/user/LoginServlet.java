@@ -4,6 +4,9 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import top.library.log.Tools;
+import top.library.log.mapper.LogMapper;
+import top.library.log.pojo.Log;
 import top.library.user.mapper.UserMapper;
 import top.library.user.pojo.User;
 
@@ -12,7 +15,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -40,19 +42,32 @@ public class LoginServlet extends HttpServlet {
 
         // 获取Mapper对象接口的代理对象
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        LogMapper logMapper = sqlSession.getMapper(LogMapper.class);
 
         //执行方法
         User user = userMapper.selectLogin(userPhone, userPassword);
 
-        // 释放资源
-        sqlSession.close();
-
         if (user != null) {
+            // 写入登陆日志
+            Tools tools = new Tools();
+            Log log = new Log();
+            log.setuCardId(user.getuCardId());
+            log.setlStartTime(tools.getTimestamp());
+            log.setlType("5001");
+            logMapper.insertLog(log);
+            sqlSession.commit();
+            // 释放资源
+            sqlSession.close();
+
+
+            // 登陆成功
             resuleStr = "登录成功 --> 欢迎您:" ;
             request.getSession().setAttribute("user", user);
             response.sendRedirect("admin/home.jsp");
         }
         else {
+            // 释放资源
+            sqlSession.close();
             resuleStr = userPhone + "用户不存在或者密码错误,请检查后重试.";
             request.setAttribute("message", resuleStr);
             request.getRequestDispatcher("test.jsp").forward(request, response);

@@ -5,6 +5,7 @@
 <configuration>
     <typeAliases>
         <package name="top.library.user.pojo"/>
+        <package name="top.library.log.pojo"/>
     </typeAliases>
     
     <!-- environments可以配置多个数据数据库连接环境 通过default属性切换不同的environments -->
@@ -22,7 +23,8 @@
     
     <mappers>
         <!-- 加载mysql映射文件 -->
-<!--        <mapper resource="com/itheima/mapper/userMapper.xml"/>-->
+    <!-- <mapper resource="com/itheima/mapper/userMapper.xml"/> -->
         <package name="top.library.user.mapper"/>
+        <package name="top.library.log.mapper"/>
     </mappers>
 </configuration>
