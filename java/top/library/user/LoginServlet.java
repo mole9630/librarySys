@@ -53,7 +53,8 @@ public class LoginServlet extends HttpServlet {
             Log log = new Log();
             log.setuCardId(user.getuCardId());
             log.setlStartTime(tools.getTimestamp());
-            log.setlType("5001");
+            log.setlEndTime(tools.getTimestamp());
+            log.setlType("user.login");
             logMapper.insertLog(log);
             sqlSession.commit();
             // 释放资源

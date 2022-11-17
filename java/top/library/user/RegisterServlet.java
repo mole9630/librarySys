@@ -79,7 +79,8 @@ public class RegisterServlet extends HttpServlet {
             Log log = new Log();
             log.setuCardId(user.getuCardId());
             log.setlStartTime(tools.getTimestamp());
-            log.setlType("5005");
+            log.setlEndTime(tools.getTimestamp());
+            log.setlType("user.register");
             logMapper.insertLog(log);
 
             // 提交事务

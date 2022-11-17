@@ -23,7 +23,7 @@
     
     <mappers>
         <!-- 加载mysql映射文件 -->
-    <!-- <mapper resource="com/itheima/mapper/userMapper.xml"/> -->
+<!--        <mapper resource="com/itheima/mapper/userMapper.xml"/>-->
         <package name="top.library.user.mapper"/>
         <package name="top.library.log.mapper"/>
     </mappers>
