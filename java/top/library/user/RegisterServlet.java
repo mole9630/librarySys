@@ -61,46 +61,54 @@ public class RegisterServlet extends HttpServlet {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             LogMapper logMapper = sqlSession.getMapper(LogMapper.class);
 
-            // 设置user对象值
-            User user = new User();
-            user.setuPhone(userPhone);
-            user.setuPassword(userPassword);
-            user.setuEmail(userEmail);
-            user.setuName(userName);
-            user.setuIdentificationNumber(userIdentificationNumber);
-            user.setuBirthday(userBirthday);
-            user.setuAddress(userAddress);
+            // 判断手机号是否存在
+            User userJudgment = userMapper.selectUserByPhone(userPhone);
 
-            //执行方法
-            statusCode = userMapper.insertRegister(user);
-
-            // 写入登陆日志
-            Tools tools = new Tools();
-            Log log = new Log();
-            log.setuCardId(user.getuCardId());
-            log.setlStartTime(tools.getTimestamp());
-            log.setlEndTime(tools.getTimestamp());
-            log.setlType("user.register");
-            logMapper.insertLog(log);
-
-            // 提交事务
-            sqlSession.commit();
-
-            // 释放资源
-            sqlSession.close();
-
-            if (statusCode == 1) {
-                System.out.println("[info] " + userPhone + "用户注册成功!");
-                resuleStr = "注册成功 --> 欢迎您:" + userName;
-            } else if (statusCode == 0) {
-                System.out.println("[info] " + userPhone + "用户注册失败,可能是用户已存在,请稍后重试.");
-                resuleStr = userPhone + "已存在";
+            if (userJudgment != null) {
+                statusCode = 0;
+                System.out.println("[info] " + userPhone + "用户注册失败,可能是用户已存在.");
+                resuleStr = userPhone + "用户已存在.";
+                request.setAttribute("message", resuleStr);
+                request.getRequestDispatcher("test.jsp").forward(request, response);
             } else {
-                resuleStr = "非法请求";
-            }
+                // 设置user对象值
+                User user = new User();
+                user.setuPhone(userPhone);
+                user.setuPassword(userPassword);
+                user.setuEmail(userEmail);
+                user.setuName(userName);
+                user.setuIdentificationNumber(userIdentificationNumber);
+                user.setuBirthday(userBirthday);
+                user.setuAddress(userAddress);
 
-            request.setAttribute("message", resuleStr);
-            request.getRequestDispatcher("test.jsp").forward(request, response);
+                //执行方法
+                statusCode = userMapper.insertRegister(user);
+
+                // 写入登陆日志
+                Tools tools = new Tools();
+                Log log = new Log();
+                log.setuCardId(user.getuCardId());
+                log.setlStartTime(tools.getTimestamp());
+                log.setlEndTime(tools.getTimestamp());
+                log.setlType("user.register");
+                logMapper.insertLog(log);
+
+                // 提交事务
+                sqlSession.commit();
+
+                // 释放资源
+                sqlSession.close();
+
+                if (statusCode == 1) {
+                    System.out.println("[info] " + userPhone + "用户注册成功!");
+                    resuleStr = "注册成功 --> 欢迎您:" + userName;
+                } else {
+                    resuleStr = "系统繁忙,请稍后重试.";
+                }
+
+                request.setAttribute("message", resuleStr);
+                request.getRequestDispatcher("test.jsp").forward(request, response);
+            }
         }
     }
 }

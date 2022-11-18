@@ -25,8 +25,10 @@
     <select id="selectLogin" resultMap="userResultMap">
         select * from user where u_phone = #{userPhone} and u_password = #{userPassword}
     </select>
-    <select id="selectUserCardId" resultMap="userResultMap">
-        select u_card_id from user where u_phone = #{userPhone}
+
+    <!--根据手机号查询用户-->
+    <select id="selectUserByPhone" resultMap="userResultMap">
+        select * from user where u_phone = #{userPhone}
     </select>
 
     <!--注册功能-->
