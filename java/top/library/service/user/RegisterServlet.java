@@ -2,6 +2,7 @@ package top.library.service.user;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import top.library.service.log.LogService;
 import top.library.util.db.SqlSessionFactoryUtils;
 import top.library.util.log.getTimestampUtils;
 import top.library.mapper.log.LogMapper;
@@ -16,6 +17,9 @@ import java.io.IOException;
 
 @WebServlet(name = "RegisterServlet", value = "/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
+    private UserService userService = new UserService();
+    private LogService logService = new LogService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -36,31 +40,18 @@ public class RegisterServlet extends HttpServlet {
 
         // 判断不可为空的字段是否为空
         if (userPhone == null || userPhone.equals("") || userRePassword == null || userRePassword.equals("") || userEmail == null || userEmail.equals("") || userName == null || userName.equals("") || userIdentificationNumber == null || userIdentificationNumber.equals("") || userAddress == null || userAddress.equals("") || userBirthday == null || userBirthday.equals("")) {
-            statusCode = 0;
             resuleStr = "请填写完整信息,请检查后重试.";
             request.setAttribute("message", resuleStr);
             request.getRequestDispatcher("test.jsp").forward(request, response);
         } else if (!userPassword.equals(userRePassword)) {
-            statusCode = 0;
             resuleStr = "两次密码不一致,请检查后重试.";
             request.setAttribute("message", resuleStr);
             request.getRequestDispatcher("test.jsp").forward(request, response);
         } else {
-            // 获取SqlSessionFactory
-            SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
-
-            // 获取SqlSession对象
-            SqlSession sqlSession = factory.openSession();
-
-            // 获取Mapper对象接口的代理对象
-            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            LogMapper logMapper = sqlSession.getMapper(LogMapper.class);
-
             // 判断手机号是否存在
-            User userJudgment = userMapper.selectUserByPhone(userPhone);
+            User userJudgment = userService.selectUserByPhone(userPhone);
 
             if (userJudgment != null) {
-                statusCode = 0;
                 System.out.println("[info] " + userPhone + "用户注册失败,可能是用户已存在.");
                 resuleStr = userPhone + "用户已存在.";
                 request.setAttribute("message", resuleStr);
@@ -77,22 +68,10 @@ public class RegisterServlet extends HttpServlet {
                 user.setuAddress(userAddress);
 
                 //执行方法
-                statusCode = userMapper.insertRegister(user);
+                statusCode = userService.insertRegister(user);
 
-                // 写入登陆日志
-                getTimestampUtils getTimestampUtils = new getTimestampUtils();
-                Log log = new Log();
-                log.setuCardId(user.getuCardId());
-                log.setlStartTime(getTimestampUtils.getTimestamp());
-                log.setlEndTime(getTimestampUtils.getTimestamp());
-                log.setlType("user.register");
-                logMapper.insertLog(log);
-
-                // 提交事务
-                sqlSession.commit();
-
-                // 释放资源
-                sqlSession.close();
+                // 写入注册日志
+                logService.insertRegisterLog(user);
 
                 if (statusCode == 1) {
                     System.out.println("[info] " + userPhone + "用户注册成功!");
