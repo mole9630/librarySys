@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <package name="top.library.user.pojo"/>
-        <package name="top.library.log.pojo"/>
+        <package name="top.library.pojo.user"/>
+        <package name="top.library.pojo.log"/>
     </typeAliases>
     
     <!-- environments可以配置多个数据数据库连接环境 通过default属性切换不同的environments -->
@@ -24,7 +24,7 @@
     <mappers>
         <!-- 加载mysql映射文件 -->
 <!--        <mapper resource="com/itheima/mapper/userMapper.xml"/>-->
-        <package name="top.library.user.mapper"/>
-        <package name="top.library.log.mapper"/>
+        <package name="top.library.mapper.user"/>
+        <package name="top.library.mapper.log"/>
     </mappers>
 </configuration>

@@ -1,20 +1,18 @@
-package top.library.user;
+package top.library.service.user;
 
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import top.library.log.Tools;
-import top.library.log.mapper.LogMapper;
-import top.library.log.pojo.Log;
-import top.library.user.mapper.UserMapper;
-import top.library.user.pojo.User;
+import top.library.util.db.SqlSessionFactoryUtils;
+import top.library.util.log.getTimestampUtils;
+import top.library.mapper.log.LogMapper;
+import top.library.pojo.log.Log;
+import top.library.mapper.user.UserMapper;
+import top.library.pojo.user.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.InputStream;
 
 @WebServlet(name = "RegisterServlet", value = "/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
@@ -49,13 +47,10 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("test.jsp").forward(request, response);
         } else {
             // 获取SqlSessionFactory
-            // 加载mybatis的核心配置文件,获取SqlSessionFactory
-            String resource = "mybatis-config.xml";
-            InputStream inputStream = Resources.getResourceAsStream(resource);
-            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
 
             // 获取SqlSession对象
-            SqlSession sqlSession = sqlSessionFactory.openSession();
+            SqlSession sqlSession = factory.openSession();
 
             // 获取Mapper对象接口的代理对象
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -85,11 +80,11 @@ public class RegisterServlet extends HttpServlet {
                 statusCode = userMapper.insertRegister(user);
 
                 // 写入登陆日志
-                Tools tools = new Tools();
+                getTimestampUtils getTimestampUtils = new getTimestampUtils();
                 Log log = new Log();
                 log.setuCardId(user.getuCardId());
-                log.setlStartTime(tools.getTimestamp());
-                log.setlEndTime(tools.getTimestamp());
+                log.setlStartTime(getTimestampUtils.getTimestamp());
+                log.setlEndTime(getTimestampUtils.getTimestamp());
                 log.setlType("user.register");
                 logMapper.insertLog(log);
 

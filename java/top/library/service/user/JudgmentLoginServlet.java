@@ -1,6 +1,6 @@
-package top.library.user;
+package top.library.service.user;
 
-import top.library.user.pojo.User;
+import top.library.pojo.user.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

@@ -1,9 +1,7 @@
-package top.library.user.mapper;
+package top.library.mapper.user;
 
 import org.apache.ibatis.annotations.Param;
-import top.library.user.pojo.User;
-
-import java.util.List;
+import top.library.pojo.user.User;
 
 public interface UserMapper {
     // 登录功能

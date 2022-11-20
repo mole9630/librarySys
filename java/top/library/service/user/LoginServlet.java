@@ -1,23 +1,24 @@
-package top.library.user;
+package top.library.service.user;
 
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import top.library.log.Tools;
-import top.library.log.mapper.LogMapper;
-import top.library.log.pojo.Log;
-import top.library.user.mapper.UserMapper;
-import top.library.user.pojo.User;
+import top.library.util.db.SqlSessionFactoryUtils;
+import top.library.util.log.getTimestampUtils;
+import top.library.mapper.log.LogMapper;
+import top.library.pojo.log.Log;
+import top.library.mapper.user.UserMapper;
+import top.library.pojo.user.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.InputStream;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
+    // 可能经常用到,所以提取出来
+    private UserService userService = new UserService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -31,34 +32,21 @@ public class LoginServlet extends HttpServlet {
 //        String selectRememberMe = request.getParameter("remember_me");
         String resuleStr = null;
 
-        // 获取SqlSessionFactory
-        // 加载mybatis的核心配置文件,获取SqlSessionFactory
-        String resource = "mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-
-        // 获取SqlSession对象
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-
-        // 获取Mapper对象接口的代理对象
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-        LogMapper logMapper = sqlSession.getMapper(LogMapper.class);
-
-        //执行方法
-        User user = userMapper.selectLogin(userPhone, userPassword);
+        // 调用UserService完成登录校验工作
+        User user = userService.selectLogin(userPhone, userPassword);
 
         if (user != null) {
             // 写入登陆日志
-            Tools tools = new Tools();
-            Log log = new Log();
-            log.setuCardId(user.getuCardId());
-            log.setlStartTime(tools.getTimestamp());
-            log.setlEndTime(tools.getTimestamp());
-            log.setlType("user.login");
-            logMapper.insertLog(log);
-            sqlSession.commit();
-            // 释放资源
-            sqlSession.close();
+//            getTimestampUtils getTimestampUtils = new getTimestampUtils();
+//            Log log = new Log();
+//            log.setuCardId(user.getuCardId());
+//            log.setlStartTime(getTimestampUtils.getTimestamp());
+//            log.setlEndTime(getTimestampUtils.getTimestamp());
+//            log.setlType("user.login");
+//            logMapper.insertLog(log);
+//            sqlSession.commit();
+//            // 释放资源
+//            sqlSession.close();
 
 
             // 登陆成功
@@ -68,7 +56,6 @@ public class LoginServlet extends HttpServlet {
         }
         else {
             // 释放资源
-            sqlSession.close();
             resuleStr = userPhone + "用户不存在或者密码错误,请检查后重试.";
             request.setAttribute("message", resuleStr);
             request.getRequestDispatcher("test.jsp").forward(request, response);

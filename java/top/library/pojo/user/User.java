@@ -1,4 +1,4 @@
-package top.library.user.pojo;
+package top.library.pojo.user;
 
 public class User {
     private Integer uCardId;

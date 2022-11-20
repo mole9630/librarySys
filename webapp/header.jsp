@@ -19,8 +19,8 @@
             <!--   跳转文字  -->
             <div class="col-lg-8 d-dm-none d-sm-none d-lg-block d-none">
                 <ul>
-                    <li><a href="#"><i class="fa-solid fa-house"></i>网站首页</a></li>
-                    <li><a href="#"><i class="fa-solid fa-circle-info"></i>本馆概况</a></li>
+                    <li><a href="/"><i class="fa-solid fa-house"></i>网站首页</a></li>
+                    <li><a href="about.jsp"><i class="fa-solid fa-circle-info"></i>本馆概况</a></li>
                     <li><a href="#"><i class="fa-solid fa-magnifying-glass"></i>书目检索</a></li>
                     <li><a href="/admin"><i class="fa-solid fa-user-check"></i>用户登录</a></li>
                     <li><a href="register.jsp"><i class="fa-solid fa-user-plus"></i>用户注册</a></li>

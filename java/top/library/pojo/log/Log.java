@@ -1,4 +1,4 @@
-package top.library.log.pojo;
+package top.library.pojo.log;
 
 public class Log {
     private Integer lId;
