@@ -1,5 +1,8 @@
 package top.library.pojo.log;
 
+/**
+ * @author mole9630
+ */
 public class Log {
     private Integer lId;
     private Integer uCardId;

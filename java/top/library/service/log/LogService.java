@@ -8,6 +8,9 @@ import top.library.pojo.user.User;
 import top.library.util.db.SqlSessionFactoryUtils;
 import top.library.util.log.getTimestampUtils;
 
+/**
+ * @author mole9630
+ */
 public class LogService {
     private SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
     private getTimestampUtils getTimestampUtils = new getTimestampUtils();

@@ -1,13 +1,6 @@
 package top.library.service.user;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import top.library.service.log.LogService;
-import top.library.util.db.SqlSessionFactoryUtils;
-import top.library.util.log.getTimestampUtils;
-import top.library.mapper.log.LogMapper;
-import top.library.pojo.log.Log;
-import top.library.mapper.user.UserMapper;
 import top.library.pojo.user.User;
 
 import javax.servlet.*;
@@ -15,6 +8,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * @author mole9630
+ */
 @WebServlet(name = "RegisterServlet", value = "/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
     private UserService userService = new UserService();
@@ -39,7 +35,7 @@ public class RegisterServlet extends HttpServlet {
         String resuleStr = null;
 
         // 判断不可为空的字段是否为空
-        if (userPhone == null || userPhone.equals("") || userRePassword == null || userRePassword.equals("") || userEmail == null || userEmail.equals("") || userName == null || userName.equals("") || userIdentificationNumber == null || userIdentificationNumber.equals("") || userAddress == null || userAddress.equals("") || userBirthday == null || userBirthday.equals("")) {
+        if (userPhone == null || "".equals(userPhone) || userRePassword == null || "".equals(userRePassword) || userEmail == null || "".equals(userEmail) || userName == null || "".equals(userName) || userIdentificationNumber == null || "".equals(userIdentificationNumber) || userAddress == null || "".equals(userAddress) || userBirthday == null || "".equals(userBirthday)) {
             resuleStr = "请填写完整信息,请检查后重试.";
             request.setAttribute("message", resuleStr);
             request.getRequestDispatcher("test.jsp").forward(request, response);

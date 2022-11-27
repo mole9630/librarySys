@@ -7,6 +7,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * @author mole9630
+ */
 @WebServlet(name = "JudgmentLoginServlet", value = "/admin")
 public class JudgmentLoginServlet extends HttpServlet {
     @Override
@@ -25,7 +28,8 @@ public class JudgmentLoginServlet extends HttpServlet {
             flag = false;
             response.getWriter().println("欢迎您" + user.getuName() + ",<a href='/LoginOutServlet'>退出</a>");
             cookie = new Cookie("JSESSIONID", session.getId());
-            cookie.setMaxAge(60 * 60 * 24 * 3); // cookie的存在周期为3天
+            // cookie的存在周期为3天
+            cookie.setMaxAge(60 * 60 * 24 * 3);
             response.sendRedirect("admin/home.jsp");
         }
         cookie.setPath("/");

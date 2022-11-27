@@ -7,6 +7,9 @@ import top.library.mapper.user.UserMapper;
 import top.library.pojo.user.User;
 import top.library.util.db.SqlSessionFactoryUtils;
 
+/**
+ * @author mole9630
+ */
 public class UserService {
     SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
 

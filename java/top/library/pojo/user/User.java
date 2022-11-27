@@ -1,5 +1,8 @@
 package top.library.pojo.user;
 
+/**
+ * @author mole9630
+ */
 public class User {
     private Integer uCardId;
     private String uName;
@@ -14,7 +17,6 @@ public class User {
     private Integer uStatus;
     private Integer uIdentity;
 
-    // 构造函数
     public User() {
     }
 
@@ -33,7 +35,6 @@ public class User {
         this.uIdentity = uIdentity;
     }
 
-    // 注册
     public User(String uPhone, String uPassword, String uEmail, String uName, String uIdentificationNumber, String uAddress) {
         this.uPhone = uPhone;
         this.uPassword = uPassword;
@@ -43,7 +44,6 @@ public class User {
         this.uAddress = uAddress;
     }
 
-    // Getter & Setter
     public Integer getuCardId() {
         return uCardId;
     }
@@ -134,4 +134,6 @@ public class User {
                 ", uIdentity=" + uIdentity +
                 '}';
     }
+
+    
 }
