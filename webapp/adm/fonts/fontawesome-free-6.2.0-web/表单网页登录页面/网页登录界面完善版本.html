@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单组件</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <style>
+       body{
+           display: flex;
+           align-items: center;
+           max-width:40px 0;
+           background-color: #f5f5f5;
+           display: -ms-flexbox;
+           -ms-flex-align: center;
+       }
+       .form-signin{
+           width: 100%;
+           max-width: 330px;
+           margin: 0 auto;
+           padding: 15px;
+       }
+       .form-signin .form-group{
+           margin-bottom: 0;
+           position: relative;
+           box-sizing: border-box;
+           padding: 10px;
+           font-size: 16px;
+       }
+    </style>
+</head>
+<body class="text-center">
+    <form action="" class="form-signin">
+        <img src="timg.jpg" alt="" width="72" height="72" class="mb-4"/>
+        <h2 class="mb-3 h3">请登录</h2>
+        <!---文本框--->
+        <div class="row">
+            <div class="col-7">
+                <input type="email" class="form-control" placeholder="邮箱地址" class="form-control form-control-lg"/>
+            </div>
+            <div class="col">
+                <input type="password" class="form-control" placeholder="密码"/>
+            </div>
+        </div>
+        <!---文本框控件-->
+        <!-- <div class="form-group">
+            <input type="email" class="form-control" placeholder="邮箱地址"/>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="密码"/>
+          </div> -->
+          <!---复选框控件-->
+          <div class="form-check">
+            <input type="checkbox" class="from-control-check"/>
+            <label><small class="form-text text-muted">记住密码</small></label>
+          </div>
+          <!---列表/菜单控件-->
+          <div class="form-group">
+              <label for="exampleFormControlSelect1">请选择角色</label>
+              <select name="" id="exampleFormControlSelect1" class="form-control" multiple>
+              <option value="VIP" selected >会员</option>
+              <option value="GUE">游客</option>
+            </select>
+          </div>
+          <!---文本域-->
+          <div class="form-group">
+              <label for="" class="">文本域</label>
+              <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+          </div>
+          <!----文件域-->
+          <div class="form-group">
+              <input type="file" class="form-control-file">
+          </div>
+          <!---单选钮--->
+          <div class="form-check form-check-inline">
+              <input type="radio" name="sex" value="male" id="nan" class="form-check-input">
+              <label for="nan"  class="from-check-lable">男</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" name="sex" value="female" id="nv" checked class="form-check-input"> 
+            <label for="nv"  class="from-check-lable">女</label>
+        </div>
+          <button class="btn btn-primary btn-block btn-lg" type="submit">登录</button>
+          <p>&copy;2020-2025</p>
+    </form>
+</body>
+</html>

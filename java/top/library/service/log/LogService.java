@@ -6,14 +6,14 @@ import top.library.mapper.log.LogMapper;
 import top.library.pojo.log.Log;
 import top.library.pojo.user.User;
 import top.library.util.db.SqlSessionFactoryUtils;
-import top.library.util.log.getTimestampUtils;
+import top.library.util.log.GetTimestampUtils;
 
 /**
  * @author mole9630
  */
 public class LogService {
     private SqlSessionFactory factory = SqlSessionFactoryUtils.getSqlSessionFactory();
-    private getTimestampUtils getTimestampUtils = new getTimestampUtils();
+    private GetTimestampUtils getTimestampUtils = new GetTimestampUtils();
 
     /**
      * 添加登录日志

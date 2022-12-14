@@ -6,6 +6,7 @@
     <typeAliases>
         <package name="top.library.pojo.user"/>
         <package name="top.library.pojo.log"/>
+        <package name="top.library.pojo.book"/>
     </typeAliases>
     
     <!-- environments可以配置多个数据数据库连接环境 通过default属性切换不同的environments -->
@@ -26,5 +27,6 @@
 <!--        <mapper resource="com/itheima/mapper/userMapper.xml"/>-->
         <package name="top.library.mapper.user"/>
         <package name="top.library.mapper.log"/>
+        <package name="top.library.mapper.book"/>
     </mappers>
 </configuration>

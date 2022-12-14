@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * @author mole9630
  */
-@WebServlet(name = "LoginServlet", value = "/LoginServlet")
+@WebServlet(name = "LoginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
     private UserService userService = new UserService();
     private LogService logService = new LogService();
@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
 
                     // 登录成功信息储存在session中
                     request.getSession().setAttribute("user", user);
-                    response.sendRedirect("admin/home.jsp");
+                    response.sendRedirect("adm/index.jsp");
                 }
                 else if (user.getuIdentity() == 1) {
                     // 管理员登陆成功
@@ -59,7 +59,7 @@ public class LoginServlet extends HttpServlet {
 
                     // 登录成功信息储存在session中
                     request.getSession().setAttribute("user", user);
-                    response.sendRedirect("user/home.jsp");
+                    response.sendRedirect("adm/index.jsp");
                 }
                 else {
                     // 未知类型用户登陆成功
@@ -69,16 +69,16 @@ public class LoginServlet extends HttpServlet {
 
                     // 登录成功信息储存在session中
                     request.getSession().setAttribute("user", user);
-                    response.sendRedirect("user/home.jsp");
+                    response.sendRedirect("adm/index.jsp");
                 }
             }
 
         }
         else {
-            // 释放资源
-            resultStr = userPhone + "用户不存在或者密码错误,请检查后重试.";
-            request.setAttribute("message", resultStr);
-            request.getRequestDispatcher("test.jsp").forward(request, response);
+            // 登录失败 存储信息到request
+            request.setAttribute("login_msg", "用户名或密码错误");
+            System.out.println("[info] " + userPhone + "用户不存在或者密码错误,请检查后重试.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 }

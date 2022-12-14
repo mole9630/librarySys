@@ -30,7 +30,7 @@ public class JudgmentLoginServlet extends HttpServlet {
             cookie = new Cookie("JSESSIONID", session.getId());
             // cookie的存在周期为3天
             cookie.setMaxAge(60 * 60 * 24 * 3);
-            response.sendRedirect("admin/home.jsp");
+            response.sendRedirect("adm/index.jsp");
         }
         cookie.setPath("/");
         response.addCookie(cookie);
