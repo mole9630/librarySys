@@ -69,7 +69,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("相城市图书馆")
-                .licenseUrl("http://library.mole9630.top")
                 .description("相城市图书馆接口文档")
                 .build();
     }

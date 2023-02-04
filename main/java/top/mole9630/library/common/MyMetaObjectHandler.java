@@ -22,8 +22,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 //        log.info("公共字段自动填充[insert]:" + metaObject.toString());
         metaObject.setValue("createTime", LocalDateTime.now()); // createTime为数据库字段名
         metaObject.setValue("updateTime", LocalDateTime.now());
-        metaObject.setValue("createUser", BaseContext.getCurrentId());
-        metaObject.setValue("updateUser", BaseContext.getCurrentId());
+//        metaObject.setValue("createUser", BaseContext.getCurrentId());
+//        metaObject.setValue("updateUser", BaseContext.getCurrentId());
     }
 
     /**
@@ -34,6 +34,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
 //        log.info("公共字段自动填充[update]:" + metaObject.toString());
         metaObject.setValue("updateTime", LocalDateTime.now());
-        metaObject.setValue("updateUser", BaseContext.getCurrentId());
+//        metaObject.setValue("updateUser", BaseContext.getCurrentId());
     }
 }

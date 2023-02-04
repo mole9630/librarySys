@@ -65,6 +65,7 @@ public class GlobalExceptionHandler {
         // 发送消息给运维
         // 发送邮件给开发人员,e对象一并发送
         // 返回给前端
+        e.printStackTrace();
         System.out.println("发送异常通知");
         return Result.error(Code.SYSTEM_UNKNOWN_ERROR, "系统繁忙, 请稍后再试");
     }

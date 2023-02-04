@@ -1,10 +1,15 @@
 package top.mole9630.library.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 用户信息
@@ -15,6 +20,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.AUTO)
     @ApiModelProperty("用户id(主键)")
     private Integer id;
     @ApiModelProperty("用户名")
@@ -39,4 +45,11 @@ public class User implements Serializable {
     private String address;
     @ApiModelProperty("状态")
     private Integer status;
+    @TableField(fill = FieldFill.INSERT) // 新增时自动填充
+    @ApiModelProperty("创建时间")
+    private LocalDateTime createTime;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE) // 新增或更新时自动填充
+    @ApiModelProperty("更新时间")
+    private LocalDateTime updateTime;
 }
