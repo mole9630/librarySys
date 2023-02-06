@@ -10,18 +10,19 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.mole9630.library.common.Result;
 import top.mole9630.library.entity.User;
 import top.mole9630.library.service.UserService;
 import top.mole9630.library.utils.ValidateCodeUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.HttpCookie;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -44,7 +45,7 @@ public class UserController {
     @DynamicParameters(name = "用户信息", properties = {
             @DynamicParameter(value = "手机号", name = "phone", dataTypeClass = String.class, required = true, example = "138123456789")
     })
-    public Result<String> sendMsg(HttpSession session, @RequestBody User user) {
+    public Result<String> sendMsg(@RequestBody User user) {
         // 获取手机号
         String phone = user.getPhone();
 
@@ -148,7 +149,9 @@ public class UserController {
         }
 
         // 6.登录成功, 将员Iid存入Session并返回登录成功结果
-        request.getSession().setAttribute("user", u.getId());
+        HttpSession session = request.getSession();
+        session.setAttribute("user", u);
+        session.setMaxInactiveInterval(86400); // 1天
         return Result.success(u);
     }
 
@@ -160,7 +163,7 @@ public class UserController {
      */
     @PostMapping("/codeMsgLogin")
     @ApiOperation(value = "用户短信验证码登录")
-    public Result<User> codeMsgLogin(HttpSession session,@RequestBody Map map) {
+    public Result<User> codeMsgLogin(HttpServletRequest request, @RequestBody Map map) {
         // 获取手机号
         String phone = map.get("phone").toString();
         // 获取验证码
@@ -184,7 +187,9 @@ public class UserController {
                 user.setStatus(1);
                 userService.save(user);
             }
-            session.setAttribute("user", user.getId());
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            session.setMaxInactiveInterval(86400); // 1天
 
             // 如果登录成功, 将验证码从redis中删除
             redisTemplate.delete(phone);
@@ -206,5 +211,98 @@ public class UserController {
         // 1.清理Session中保存的当前登录的用户id
         request.getSession().removeAttribute("user");
         return Result.success("退出成功");
+    }
+
+    /**
+     * 修改密码
+     * @param user 用户对象
+     * @return 修改密码结果
+     */
+    @PutMapping("/update-password")
+    public Result<String> updatePassword(@RequestBody User user) {
+        // 根据id查询用户
+        User u = userService.getById(user.getId());
+        // 将页面提交的密码password进行md5加密处理
+        String password = user.getPassword();
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        // 将页面提交的密码设置到查询到的用户对象中
+        u.setPassword(password);
+        // 更新用户
+        boolean flag = userService.updateById(u);
+        if (!flag) {
+            return Result.error(0, "用户资料修改失败");
+        }
+        return Result.success("用户资料修改成功");
+    }
+
+/**
+     * 修改用户资料
+     * @param user 用户对象
+     * @return 修改用户资料结果
+     */
+    @PutMapping("/update-info")
+    public Result<String> updateInfo(@RequestBody User user) {
+        // 更新用户
+        boolean flag = userService.updateById(user);
+        if (!flag) {
+            return Result.error(0, "用户资料修改失败");
+        }
+        return Result.success("用户资料修改成功");
+    }
+
+    /**
+     * 获取用户身份(二维)码
+     * @param request 请求
+     * @param response 响应
+     * @return 用户身份(二维)码
+     */
+    @GetMapping("/getIdentityCode")
+    public Result<String> getIdentityCode(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        String identityCode = null;
+        User user = (User) request.getSession().getAttribute("user");
+
+        // 判断session中是否有user对象
+        if (user == null) {
+            return Result.error(0, "登录态失效, 请重新登录");
+        }
+
+        // 获取cookie中的identityCode
+        for (Cookie cookie: cookies) {
+            if (cookie.getName().equals("identityCode")) {
+                identityCode = cookie.getValue();
+            }
+        }
+
+        // 拼凑key并取出user对象
+        String key = "user:identityCode:" + identityCode;
+
+        // 判断cookie内是否有身份码
+        if (identityCode != null) {
+            // 如果cookie中已经存在该key, 则直接返回identityCode
+            if (redisTemplate.opsForValue().get(key) != null) {
+                // 如果redis中已经存在该key, 则直接返回identityCode
+                return Result.success(identityCode);
+            } else {
+                // 如果不存在重新生成身份码
+                identityCode = UUID.randomUUID().toString().replace("-", "");
+                // 将identityCode存入redis
+                redisTemplate.opsForValue().set(key, user.getId(), 60, TimeUnit.SECONDS);
+                // 将identityCode存入cookie
+                Cookie cookie = new Cookie("identityCode", identityCode);
+                cookie.setMaxAge(60);
+                return Result.success(identityCode);
+            }
+        } else {
+            // 如果不存在重新生成身份码
+            identityCode = UUID.randomUUID().toString().replace("-", "");
+            // 将identityCode存入redis
+            key = "user:identityCode:" + identityCode;
+            redisTemplate.opsForValue().set(key, user.getId(), 60, TimeUnit.SECONDS);
+            // 将identityCode存入cookie
+            Cookie cookie = new Cookie("identityCode", identityCode);
+            cookie.setMaxAge(60);
+            return Result.success(identityCode);
+        }
     }
 }
