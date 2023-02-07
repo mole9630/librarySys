@@ -34,7 +34,7 @@ public class UserRegisterTest {
         user.setEmail("me@mole9630.top");
         user.setAddress("翻斗大街翻斗花园二号楼1001室");
         // 发送验证码
-        userController.sendMsg(null, user);
+        userController.sendMsg(user);
         // 获取验证码
         String key = "PhoneCAPTCHA_" + user.getPhone();
         String code = (String) redisTemplate.opsForValue().get(key);
@@ -57,7 +57,7 @@ public class UserRegisterTest {
         user.setEmail("me@mole9630.top");
         user.setAddress("翻斗大街翻斗花园二号楼1002室");
         // 发送验证码
-        userController.sendMsg(null, user);
+        userController.sendMsg(user);
         // 获取验证码
         String key = "PhoneCAPTCHA_" + user.getPhone();
         String code = (String) redisTemplate.opsForValue().get(key);
