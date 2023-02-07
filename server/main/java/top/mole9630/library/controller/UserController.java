@@ -230,9 +230,9 @@ public class UserController {
         // 更新用户
         boolean flag = userService.updateById(u);
         if (!flag) {
-            return Result.error(0, "用户资料修改失败");
+            return Result.error(0, "密码修改失败");
         }
-        return Result.success("用户资料修改成功");
+        return Result.success("密码资料修改成功");
     }
 
 /**
@@ -245,9 +245,9 @@ public class UserController {
         // 更新用户
         boolean flag = userService.updateById(user);
         if (!flag) {
-            return Result.error(0, "用户资料修改失败");
+            return Result.error(0, "个人资料修改失败");
         }
-        return Result.success("用户资料修改成功");
+        return Result.success("个人资料修改成功");
     }
 
     /**
@@ -290,7 +290,9 @@ public class UserController {
                 redisTemplate.opsForValue().set(key, user.getId(), 60, TimeUnit.SECONDS);
                 // 将identityCode存入cookie
                 Cookie cookie = new Cookie("identityCode", identityCode);
+                cookie.setPath("/");
                 cookie.setMaxAge(60);
+                response.addCookie(cookie);
                 return Result.success(identityCode);
             }
         } else {
