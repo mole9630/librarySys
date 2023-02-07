@@ -11,7 +11,7 @@
  Target Server Version : 80031 (8.0.31)
  File Encoding         : 65001
 
- Date: 06/02/2023 22:46:21
+ Date: 07/02/2023 19:41:15
 */
 
 SET NAMES utf8mb4;
@@ -93,7 +93,7 @@ CREATE TABLE `user`  (
   `sex` int NULL DEFAULT NULL COMMENT '性别(0:女,1:男)',
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '电子邮件',
   `address` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '住址',
-  `status` int UNSIGNED NOT NULL DEFAULT 1 COMMENT '账户状态(0:封禁,1:正常)',
+  `status` int UNSIGNED NOT NULL DEFAULT 1 COMMENT '账户状态(0:封禁,1:正常,2:挂失)',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
