@@ -33,8 +33,7 @@ public class UserUpdateTest {
      */
     @Test
     void updateUserPassword() {
-        String password = "123456";
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        String password = "123321";
         User user = new User();
         user.setId(1);
         user.setPassword(password);

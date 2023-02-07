@@ -232,7 +232,7 @@ public class UserController {
         if (!flag) {
             return Result.error(0, "密码修改失败");
         }
-        return Result.success("密码资料修改成功");
+        return Result.success("密码修改成功");
     }
 
 /**
@@ -306,5 +306,54 @@ public class UserController {
             cookie.setMaxAge(60);
             return Result.success(identityCode);
         }
+    }
+
+    @PutMapping("/report-lose")
+    public Result<String> reportLose(HttpServletRequest request, String type) {
+        // 获取用户对象
+        User sessionUser = (User) request.getSession().getAttribute("user");
+        // 查询数据库最新数据是否为挂失
+        User mysqlUser = userService.getById(sessionUser.getId());
+
+        if (sessionUser.getStatus() == 0) {
+            return Result.error(0, "用户状态异常, 请联系管理员");
+        } else if (mysqlUser.getStatus() == 0) {
+            return Result.error(0, "用户状态异常, 请联系管理员");
+        }
+
+        // 判断是挂失还是解挂
+        if (type.equals("lose")) {
+            // 挂失
+            // 查询数据库最新数据是否为挂失
+            if (mysqlUser.getStatus() == 2) {
+                return Result.error(0, "用户已挂失, 无需重复挂失");
+            }
+            // 设置用户为挂失状态
+            User user = new User();
+            user.setId(sessionUser.getId());
+            user.setStatus(2);
+            // 更新用户
+            boolean flag = userService.updateById(user);
+            return flag ? Result.success("挂失成功") : Result.error(0, "挂失失败, 请稍后重试");
+
+        } else if (type.equals("unlose")) {
+            // 解挂
+            // 查询数据库最新数据是否为挂失
+            if (mysqlUser.getStatus() == 1) {
+                return Result.error(0, "用户未挂失, 无需解挂");
+            }
+
+            // 设置用户为挂失状态
+            User user = new User();
+            user.setId(sessionUser.getId());
+            user.setStatus(1);
+            // 更新用户
+            boolean flag = userService.updateById(user);
+            return flag ? Result.success("解挂成功") : Result.error(0, "解挂失败, 请稍后重试");
+        } else {
+            return Result.error(0, "服务器繁忙, 请稍后重试");
+        }
+
+
     }
 }

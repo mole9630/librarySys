@@ -1,11 +1,9 @@
 # librarySys
-基于SpringBoot + MP + Redis + MySQL开发的图书馆前后端系统
+前端基于Vue + ElementUI
+后端基于SpringBoot + MP + Redis + MySQL开发的图书馆前后端系统
 
-### 目前后端已实现及将要实现的功能(TODO)
-* [ ] 登录注册功能
-* [ ] 用户后台
-* [ ] 管理员后台
-* [ ] 用户端-借阅列表及续借功能
+### 后端已实现及将要实现的功能(TODO)
+![todo](./pic/todo.png)
 
 ### 网站状态码及日志类型码
 #### 状态码
