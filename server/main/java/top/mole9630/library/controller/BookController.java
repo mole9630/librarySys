@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.mole9630.library.common.Result;
+import top.mole9630.library.entity.BookAll;
 import top.mole9630.library.entity.BookInfo;
+import top.mole9630.library.service.BookAllService;
 import top.mole9630.library.service.BookInfoService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/book")
@@ -18,6 +22,8 @@ import top.mole9630.library.service.BookInfoService;
 public class BookController {
     @Autowired
     private BookInfoService bookInfoService;
+    @Autowired
+    private BookAllService bookAllService;
 
     /**
      * 分页查询图书信息
@@ -27,7 +33,7 @@ public class BookController {
      * @param type 搜索类型
      * @return 图书信息
      */
-    @GetMapping("/page")
+    @GetMapping("/search-book-page")
     public Result<Page> searchBookInfoPage(int page, int pageSize, String searchText, Integer type) {
         // 构造分页构造器
         Page<BookInfo> bookInfoPage = new Page<>(page, pageSize);
@@ -53,9 +59,33 @@ public class BookController {
             }
         }
         // 添加排序条件
-        queryWrapper.orderByDesc(BookInfo::getUpdate_time);
+//        queryWrapper.orderByDesc(BookInfo::getUpdate_time);
         // 查询
         bookInfoService.page(bookInfoPage, queryWrapper);
         return Result.success(bookInfoPage);
+    }
+
+    /**
+     * 根据图书id查询单个图书详细信息
+     * @param bookId 图书id
+     * @return 图书详细信息
+     */
+    @GetMapping("/get-book-info")
+    public Result<BookInfo> getBookInfo(Integer bookId) {
+        BookInfo bookInfo = bookInfoService.getById(bookId);
+        return Result.success(bookInfo);
+    }
+
+    /**
+     * 根据图书id查询图书馆藏信息
+     * @param bookId 图书id
+     * @return 图书馆藏信息
+     */
+    @GetMapping("/get-book-all")
+    public Result<List<BookAll>> getBookAll(Integer bookId) {
+        LambdaQueryWrapper<BookAll> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(BookAll::getBookId, bookId);
+        List<BookAll> bookAllList = bookAllService.getBaseMapper().selectList(queryWrapper);
+        return Result.success(bookAllList);
     }
 }

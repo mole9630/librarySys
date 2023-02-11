@@ -1,16 +1,18 @@
 package top.mole9630.library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(value = {"lendStatus", "createTime", "updateTime"})
 public class BookAll {
     private Integer id;
-    private Integer book_id;
-    private String org_name;
-    private String room_name;
-    private Integer index_no;
-    private String lend_status;
-    private String create_time;
-    private String update_time;
+    private Integer bookId;
+    private String orgName;
+    private String roomName;
+    private String indexNo;
+    private Integer lendStatus;
+    private String createTime;
+    private String updateTime;
 
 }

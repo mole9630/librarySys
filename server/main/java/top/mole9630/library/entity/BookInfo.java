@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @ApiModel(value = "图书信息")
+@JsonIgnoreProperties(value = {"ordered", "status", "createTime", "updateTime"})
 public class BookInfo {
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "图书ID")
@@ -25,7 +27,7 @@ public class BookInfo {
     private String pubdate;
 
     @ApiModelProperty(value = "图书封面")
-    private String source_image;
+    private String sourceImage;
 
     @ApiModelProperty(value = "作者")
     private String author;
@@ -47,10 +49,9 @@ public class BookInfo {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT) // 新增时自动填充
-    private String create_time;
+    private String createTime;
 
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE) // 新增或更新时自动填充
-    private String update_time;
-
+    private String updateTime;
 }
