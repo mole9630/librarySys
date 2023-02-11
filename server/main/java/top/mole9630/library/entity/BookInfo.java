@@ -39,9 +39,6 @@ public class BookInfo {
     @ApiModelProperty(value = "图书页数")
     private String pages;
 
-    @ApiModelProperty(value = "索书号")
-    private String index_no;
-
     @ApiModelProperty(value = "排序")
     private Integer ordered;
 

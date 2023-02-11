@@ -254,7 +254,7 @@ public class UserController {
      * 获取用户身份(二维)码
      * @param request 请求
      * @param response 响应
-     * @return 用户身份(二维)码
+     * @return 用户身份码
      */
     @GetMapping("/getIdentityCode")
     public Result<String> getIdentityCode(HttpServletRequest request, HttpServletResponse response) {
@@ -279,7 +279,7 @@ public class UserController {
 
         // 判断cookie内是否有身份码
         if (identityCode != null) {
-            // 如果cookie中已经存在该key, 则直接返回identityCode
+            // 如果cookie中已经存在该key, 则查询redis内是否存在该key
             if (redisTemplate.opsForValue().get(key) != null) {
                 // 如果redis中已经存在该key, 则直接返回identityCode
                 return Result.success(identityCode);
