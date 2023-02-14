@@ -219,16 +219,15 @@ public class UserController {
      * @return 修改密码结果
      */
     @PutMapping("/update-password")
-    public Result<String> updatePassword(@RequestBody User user) {
+    public Result<String> updatePassword(HttpServletRequest request, String password) {
         // 根据id查询用户
-        User u = userService.getById(user.getId());
+        User user = (User) request.getSession().getAttribute("user");
         // 将页面提交的密码password进行md5加密处理
-        String password = user.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         // 将页面提交的密码设置到查询到的用户对象中
-        u.setPassword(password);
+        user.setPassword(password);
         // 更新用户
-        boolean flag = userService.updateById(u);
+        boolean flag = userService.updateById(user);
         if (!flag) {
             return Result.error(0, "密码修改失败");
         }
@@ -308,6 +307,12 @@ public class UserController {
         }
     }
 
+    /**
+     * 用户解挂失
+     * @param request 请求
+     * @param type 解挂失类型
+     * @return 解挂失结果
+     */
     @PutMapping("/report-lose")
     public Result<String> reportLose(HttpServletRequest request, String type) {
         // 获取用户对象

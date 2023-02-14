@@ -27,17 +27,4 @@ public class UserUpdateTest {
         Result<String> result = userController.updateInfo(user);
         log.info("修改结果:{}", result);
     }
-
-    /**
-     * 修改用户密码
-     */
-    @Test
-    void updateUserPassword() {
-        String password = "123321";
-        User user = new User();
-        user.setId(1);
-        user.setPassword(password);
-        Result<String> result = userController.updatePassword(user);
-        log.info("修改结果:{}", result);
-    }
 }
