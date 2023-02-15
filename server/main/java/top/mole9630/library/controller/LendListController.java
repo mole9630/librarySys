@@ -18,7 +18,12 @@ import top.mole9630.library.service.BookAllService;
 import top.mole9630.library.service.LendListService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @RestController
@@ -93,7 +98,6 @@ public class LendListController {
         LambdaQueryWrapper<LendList> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(LendList::getUserId, user.getId());
         queryWrapper.eq(LendList::getBookId, barcode);
-        queryWrapper.eq(LendList::getBackStatus, 0);
         LendList lendList = lendListService.getOne(queryWrapper);
         if (lendList == null) {
             return Result.error(0, "该图书不是您借出的");
@@ -102,5 +106,48 @@ public class LendListController {
         // 执行归还方法
         lendListService.backBook(user.getId(), barcode, lendList.getCode());
         return Result.success("归还成功");
+    }
+
+    @PutMapping("/renewal")
+    @ApiOperation(value = "续借图书")
+    public Result<String> renewal(HttpServletRequest request, Integer barcode) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return Result.error(0, "请先登录");
+        }
+        if (barcode == null) {
+            return Result.error(0, "参数错误, 请稍后重试");
+        }
+
+        // 判断图书是否为该用户借出
+        LambdaQueryWrapper<LendList> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(LendList::getUserId, user.getId());
+        queryWrapper.eq(LendList::getBookId, barcode);
+        LendList lendList = lendListService.getOne(queryWrapper);
+        if (lendList == null) {
+            return Result.error(0, "该图书不是您借出的");
+        }
+        if (lendList.getRenewal() == 1) {
+            return Result.error(0, "该图书达到最大续借次数上限");
+        }
+
+        lendList.setRenewal(lendList.getRenewal() + 1);
+        // 时间加一个月
+        String backDate = lendList.getBackDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = sdf.parse(backDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date); //设置起时间
+        cal.add(Calendar.MONTH, 1); //增加一个月
+
+        lendList.setBackDate(sdf.format(cal.getTime()));
+        lendListService.updateById(lendList);
+
+        return Result.success("续借成功");
     }
 }
