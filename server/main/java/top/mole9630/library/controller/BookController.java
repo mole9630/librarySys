@@ -3,6 +3,7 @@ package top.mole9630.library.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,7 @@ public class BookController {
      * @return 图书信息
      */
     @GetMapping("/search-book-page")
+    @ApiOperation(value = "模糊检索图书信息")
     public Result<Page> searchBookInfoPage(int page, int pageSize, String searchText, Integer type) {
         // 构造分页构造器
         Page<BookInfo> bookInfoPage = new Page<>(page, pageSize);
@@ -71,6 +73,7 @@ public class BookController {
      * @return 图书详细信息
      */
     @GetMapping("/get-book-info")
+    @ApiOperation(value = "查询图书详细信息")
     public Result<BookInfo> getBookInfo(Integer bookId) {
         BookInfo bookInfo = bookInfoService.getById(bookId);
         return Result.success(bookInfo);
@@ -82,6 +85,7 @@ public class BookController {
      * @return 图书馆藏信息
      */
     @GetMapping("/get-book-all")
+    @ApiOperation(value = "查询图书馆藏信息")
     public Result<List<BookAll>> getBookAll(Integer bookId) {
         LambdaQueryWrapper<BookAll> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(BookAll::getBookId, bookId);

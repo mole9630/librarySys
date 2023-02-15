@@ -26,8 +26,9 @@ public class UserRegisterTest {
     @Test
     void register() {
         User user = new User();
+        user.setId(1000);
         user.setPhone("9630");
-        user.setPassword("123456");
+        user.setPassword("123321");
         user.setBirthday("2023-01-01");
         user.setIdentificationNumber("123456789012345678");
         user.setSex(1);

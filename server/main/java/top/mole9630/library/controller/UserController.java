@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.DynamicParameter;
 import com.github.xiaoymin.knife4j.annotations.DynamicParameters;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -214,11 +215,13 @@ public class UserController {
     }
 
     /**
-     * 修改密码
-     * @param user 用户对象
-     * @return 修改密码结果
+     * 用户解挂失
+     * @param request 请求
+     * @param password 密码
+     * @return 解挂失结果
      */
     @PutMapping("/update-password")
+    @ApiOperation(value = "用户解挂失")
     public Result<String> updatePassword(HttpServletRequest request, String password) {
         // 根据id查询用户
         User user = (User) request.getSession().getAttribute("user");
@@ -240,6 +243,7 @@ public class UserController {
      * @return 修改用户资料结果
      */
     @PutMapping("/update-info")
+    @ApiOperation(value = "更新用户资料")
     public Result<String> updateInfo(@RequestBody User user) {
         // 更新用户
         boolean flag = userService.updateById(user);
@@ -256,6 +260,7 @@ public class UserController {
      * @return 用户身份码
      */
     @GetMapping("/getIdentityCode")
+    @ApiOperation(value = "获取身份码")
     public Result<String> getIdentityCode(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
         String identityCode = null;
@@ -314,6 +319,7 @@ public class UserController {
      * @return 解挂失结果
      */
     @PutMapping("/report-lose")
+    @ApiOperation(value = "用户解挂失")
     public Result<String> reportLose(HttpServletRequest request, String type) {
         // 获取用户对象
         User sessionUser = (User) request.getSession().getAttribute("user");

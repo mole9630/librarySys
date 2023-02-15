@@ -62,6 +62,12 @@ public class OrderUtils {
         return rangeLong;
     }
 
+    public static String getUserCode(Integer userId) {
+        String idStr = userId.toString();
+        String substring = idStr.substring(idStr.length() - 4);
+        return getDateTime() + substring;
+    }
+
     /**
      * 生成不带类别标头的编码
      * @param userId
@@ -76,7 +82,7 @@ public class OrderUtils {
      * @param userId  网站中该用户唯一ID 防止重复
      */
     public static String getOrderCode(Integer userId) {
-        return ORDER_CODE + getCode(userId);
+        return ORDER_CODE + getUserCode(userId);
     }
 
     /**
@@ -84,7 +90,7 @@ public class OrderUtils {
      * @param userId 网站中该用户唯一ID 防止重复
      */
     public static String getLendCode(Integer userId) {
-        return LEND_ORDER + getCode(userId);
+        return LEND_ORDER + getUserCode(userId);
     }
 
 
@@ -93,10 +99,10 @@ public class OrderUtils {
      * @param userId  网站中该用户唯一ID 防止重复
      */
     public static String getRefundCode(Integer userId) {
-        return REFUND_ORDER + getCode(userId);
+        return REFUND_ORDER + getUserCode(userId);
     }
 
     public static void main(String[] args) {
-        System.out.println(getLendCode(12345));
+        System.out.println(getDateTime());
     }
 }

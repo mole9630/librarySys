@@ -9,10 +9,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @ApiModel(value = "图书信息")
 @JsonIgnoreProperties(value = {"ordered", "status", "createTime", "updateTime"})
-public class BookInfo {
+public class BookInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "图书ID")
     private Integer id;
