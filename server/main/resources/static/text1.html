@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>滑动切换的注册登录界面</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="plugins/vue/vue.js"></script>
+    <link rel="stylesheet" href="plugins/element-ui/index.css">
+</head>
+
+<body>
+<div id="app" class="container">
+    <!-- 图片 -->
+    <div class="form-box">
+        <!-- 注册 -->
+        <div class="register-box hidden">
+            <h1>register</h1>
+            <input v-model="RegisterForm.phone" type="text" placeholder="手机号">
+            <input v-model="RegisterForm.phoneCAPTCHA" type="text" placeholder="验证码">
+            <button @click="getCode">获取验证码</button>
+            <input v-model="RegisterForm.password" type="password" placeholder="密码">
+            <input v-model="rePassword" type="password" placeholder="确认密码">
+            <input v-model="RegisterForm.name" type="text" placeholder="姓名">
+            <input v-model="RegisterForm.identificationNumber" type="text" placeholder="身份证号">
+            <input v-model="RegisterForm.email" type="email" placeholder="邮箱">
+            <input v-model="RegisterForm.address" type="text" placeholder="地址">
+
+<!--            <div>-->
+<!--                <label>性别:</label>-->
+<!--                <input type="radio" value="0" name="sex">女-->
+<!--                <input type="radio" value="1" name="sex">男-->
+<!--            </div>-->
+
+
+
+<!--            <div class="radio">-->
+<!--                排序：-->
+<!--                <el-radio-group v-model="reverse">-->
+<!--                    <el-radio :label="true">倒序</el-radio>-->
+<!--                    <el-radio :label="false">正序</el-radio>-->
+<!--                </el-radio-group>-->
+<!--            </div>-->
+            <button @click="register">注册</button>
+        </div>
+        <!-- 登录 -->
+        <div class="login-box">
+            <h1>login</h1>
+
+            <input v-model="LoginForm.phone" type="text" placeholder="手机号">
+            <input v-model="LoginForm.password" type="password" placeholder="密码">
+            <button>登录</button>
+        </div>
+    </div>
+    <div class="con-box left">
+        <h2 class="title">相城图书馆</h2>
+<!--        <img src="../images/cat/1.png" alt="" class="smaller">-->
+        <p>已有账号</p>
+        <button id="login">去登录</button>
+    </div>
+    <div class="con-box right">
+        <h2 class="title">相城图书馆</h2>
+<!--        <img src="../images/cat/2.png" alt="" class="smaller">-->
+        <p>没有账号？</p>
+        <button id="register">去注册</button>
+    </div>
+</div>
+<script src="plugins/axios/axios.min.js"></script>
+<script src="js/request.js"></script>
+<script src="api/user.js"></script>
+<script src="plugins/element-ui/index.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            LoginForm: {
+                phone: "",
+                password: ""
+            },
+            RegisterForm: {
+                phone: "",
+                password: "",
+                address: "",
+                birthday: "",
+                email: "",
+                identificationNumber: "",
+                name: "",
+                sex: "",
+                phoneCAPTCHA:""
+            },
+            rePassword: ""
+        },
+        methods: {
+            getCode() {
+                sendCodeMsg({phone: this.RegisterForm.phone}).then(res => {
+                    if (res.data.code === 200) {
+                        this.$message.success(res.data.message)
+                    } else {
+                        this.$message.error(res.data.message)
+                    }
+                }).catch(err=> {
+                    this.$message.error('请求出错了：' + err)
+                })
+            },
+            register() {
+                let params = {
+                    user: this.RegisterForm,
+                    phoneCAPTCHA: this.phoneCAPTCHA
+                }
+                registerApi(params).then(res => {
+                    if (res.data.code === 200) {
+                        this.$message.success(res.data.message)
+                    } else {
+                        this.$message.error(res.data.message)
+                    }
+                }).catch(err=> {
+                    this.$message.error('请求出错了：' + err)
+                })
+            }
+        }
+    })
+
+    // 要操作到的元素
+    let login=document.getElementById('login');
+    let register=document.getElementById('register');
+    let form_box=document.getElementsByClassName('form-box')[0];
+    let register_box=document.getElementsByClassName('register-box')[0];
+    let login_box=document.getElementsByClassName('login-box')[0];
+    // 去注册按钮点击事件
+    register.addEventListener('click',()=>{
+        form_box.style.transform='translateX(80%)';
+        login_box.classList.add('hidden');
+        register_box.classList.remove('hidden');
+    })
+    // 去登录按钮点击事件
+    login.addEventListener('click',()=>{
+        form_box.style.transform='translateX(0%)';
+        register_box.classList.add('hidden');
+        login_box.classList.remove('hidden');
+    })
+</script>
+</body>
+
+</html>

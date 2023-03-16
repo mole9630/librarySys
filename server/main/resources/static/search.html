@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>相城市图书馆</title>
+    <link rel="stylesheet" href="plugins/fontawesome-pro-6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="plugins/element-ui/index.css">
+    <script src="plugins/axios/axios.min.js"></script>
+    <script src="plugins/vue/vue.js"></script>
+    <script src="plugins/element-ui/index.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <!-- logo -->
+    <div id="logo">
+        <img src="img/logo.png">
+    </div>
+    <!--  检索  -->
+    <div id="search">
+        <span>检索</span>
+        <!--  单选按钮  -->
+        <div id="radio">
+            <template>
+                <el-radio v-model="type" label="1">任意词</el-radio>
+                <el-radio v-model="type" label="2">题名</el-radio>
+                <el-radio v-model="type" label="3">ISBN</el-radio>
+                <el-radio v-model="type" label="4">著者</el-radio>
+                <el-radio v-model="type" label="5">主题词</el-radio>
+                <el-radio v-model="type" label="6">分类号</el-radio>
+                <el-radio v-model="type" label="7">订购号</el-radio>
+                <el-radio v-model="type" label="8">出版社</el-radio>
+                <el-radio v-model="type" label="9">索书号</el-radio>
+            </template>
+        </div>
+
+        <!--  搜索框  -->
+        <div id="contents">
+            <el-row :gutter="20">
+                <el-col :span="16">
+                    <el-input v-model="searchText" placeholder="请输入内容" @keyup.enter="search"></el-input>
+                </el-col>
+
+                <el-col :span="8">
+                    <el-button type="primary" @click="search"><i class="fa-regular fa-magnifying-glass"></i>&nbsp;搜索</el-button>
+                </el-col>
+            </el-row>
+        </div>
+    </div>
+    <div id="search_after">
+        <div>
+            <span>第&nbsp;1&nbsp;-&nbsp;20&nbsp;条，共53,000条:&nbsp;全部书目</span>
+            <span>排序:<template>
+                  <el-select v-model="value">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                  </el-select>
+                </template></span>
+            <span>
+                <el-pagination>
+                    background
+                    layout="prev, pager, next"
+                    :total="50">
+                </el-pagination>
+            </span>
+        </div><hr>
+        <div v-for="item in records">
+            {{ index + 1 }}.{{ item }}
+
+        </div>
+    </div>
+</div>
+</body>
+<script src="plugins/axios/axios.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/request.js"></script>
+<script src="api/book.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            page: "1",
+            type: "1",
+            searchText: "",
+            options: [{
+                value: '选项1',
+                label: '相关性'
+            },{
+                value: '选项2',
+                label: '日期 - 倒序'
+            }, {
+                value: '选项3',
+                label: '日期 - 升序'
+            }],
+            value: '相关性',
+            records: [],
+            total: undefined
+
+        },
+        // created: {
+        //
+        // },
+        methods: {
+
+            search() {
+                // 内容提取
+                const params = {
+                    page: this.page,
+                    pageSize: "10",
+                    type: this.type,
+                    searchText: this.searchText ? this.searchText : undefined
+                }
+                getBookList(params).then(res => {
+                    this.records = res.data.records
+                    this.total  = res.data.total
+                }).catch(err=> {
+                    this.$message.error('请求出错了：' + err)
+                })
+                // console.log(this.type, this.searchText)
+
+            }
+        }
+
+    })
+</script>
+</html>

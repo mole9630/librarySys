@@ -1,5 +1,6 @@
 package top.mole9630.library.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.DynamicParameter;
 import com.github.xiaoymin.knife4j.annotations.DynamicParameters;
@@ -63,7 +64,7 @@ public class UserController {
             // 将验证码存入redis中并设置有效期为5分钟
             String key = "PhoneCAPTCHA_" + phone;
             redisTemplate.opsForValue().set(key, code, 300, TimeUnit.SECONDS);
-            return Result.success("验证码发送成功");
+            return Result.success(null, "验证码发送成功");
         }
         return Result.error(0, "验证码发送失败");
     }
@@ -150,9 +151,7 @@ public class UserController {
         }
 
         // 6.登录成功, 将员Iid存入Session并返回登录成功结果
-        HttpSession session = request.getSession();
-        session.setAttribute("user", u);
-        session.setMaxInactiveInterval(86400); // 1天
+        StpUtil.login(u.getId());
         return Result.success(u);
     }
 
@@ -202,16 +201,36 @@ public class UserController {
     }
 
     /**
+     * 判断用户是否登录
+     * @return 是否登录结果
+     */
+    @GetMapping("/is-login")
+    @ApiOperation(value = "判断用户是否登录")
+    public Result<String> isLogin() {
+        return Result.success(StpUtil.isLogin() ? "已登录" : "未登录");
+    }
+
+    /**
      * 用户退出登录
      * @param request 请求
      * @return 退出登录结果
      */
     @PostMapping("/logout")
     @ApiOperation(value = "用户退出登录")
-    public Result<String> logout(HttpServletRequest request) {
-        // 1.清理Session中保存的当前登录的用户id
-        request.getSession().removeAttribute("user");
+    public Result<String> logout() {
+        StpUtil.logout();
         return Result.success("退出成功");
+    }
+
+    /**
+     * 踢出用户下线
+     * @param userId 用户id
+     * @return 踢出结果
+     */
+    @PostMapping("/kickout")
+    public Result<String> kickout(Integer userId) {
+        StpUtil.kickout(userId);
+        return Result.success("成功踢出该用户下线: " + userId);
     }
 
     /**

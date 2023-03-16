@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../plugins/fontawesome-pro-6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="../plugins/element-ui/index.css">
+    <script src="../plugins/axios/axios.min.js"></script>
+    <script src="../plugins/vue/vue.js"></script>
+    <script src="../plugins/element-ui/index.js"></script>
+</head>
+
+<body>
+<div class="app">
+    <img src="./bg.jpg" />
+    <div class="container">
+        <div class="form-box">
+            <!-- 注册 -->
+            <div class="register-box hidden">
+                <h1>register</h1>
+                <input type="text" placeholder="用户名">
+                <input type="email" placeholder="邮箱">
+                <input type="password" placeholder="密码">
+                <input type="password" placeholder="确认密码">
+                <button>注册</button>
+                <a href="#">手机号注册</a>
+            </div>
+<!--             登录-->
+<!--                <el-form ref="loginForm" :model="loginForm" :rules="logRules">-->
+<!--                    <el-form-item porp="username">-->
+<!--                        <el-input v-model="loginForm.username" tyoe="text" auto-complete="off" placeholder="用户名"-->
+<!--                        maxlength="20" prefix-icon="iconfont icon-user"></el-input>-->
+<!--                    </el-form-item>-->
+
+<!--                    <el-form-item porp="password">-->
+<!--                        <el-input v-model="loginForm.password" tyoe="password" placeholder="密码"-->
+<!--                        prefix-icon="iconfont icon-user" maxlength="20" @keyup.enter.native="handleLogin"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                </el-form>-->
+
+            <div class="login-box">
+                <h1>login</h1>
+                <input type="text" placeholder="用户名">
+                <input type="password" placeholder="密码">
+                <button>登录</button>
+                <a href="#">手机号登录</a>
+            </div>
+        </div>
+        <div class="con-box left">
+            <h2 class="title"><span>相城市图书馆</span></h2>
+            <img src="../images/cat/1.png" alt="" class="smaller">
+            <p>已有账号</p>
+            <button id="login">去登录</button>
+        </div>
+        <div class="con-box right">
+            <h2 class="title"><span>相城市图书馆</span></h2>
+            <img src="../images/cat/2.png" alt="" class="smaller">
+            <p>没有账号？</p>
+            <button id="register">去注册</button>
+
+        </div>
+    </div>
+</div>
+</body>
+<script src="style.js"></script>
+
+
+</html>

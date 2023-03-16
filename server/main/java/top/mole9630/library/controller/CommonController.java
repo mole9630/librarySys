@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/common")
 @Api(tags = "文件上传和下载相关接口")
 public class CommonController {
-    @Value("${reggie.path}")
+//    @Value("${reggie.path}")
     private String basePath;
     @Autowired
     private RedisTemplate redisTemplate;
