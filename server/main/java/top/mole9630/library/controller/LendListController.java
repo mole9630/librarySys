@@ -1,5 +1,6 @@
 package top.mole9630.library.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,10 +44,15 @@ public class LendListController {
      */
     @GetMapping("/get-lend")
     @ApiOperation(value = "获取图书借阅记录")
-    public Result<List<LendList>> getLendList(HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
+    public Result<List<LendList>> getLendList() {
+        // 判断是否登录
+        if (!StpUtil.isLogin()) {
+            return Result.error(0, "登录态失效, 请重新登录");
+        }
+        // 获取用户ID
+        int userId = StpUtil.getLoginIdAsInt();
         LambdaQueryWrapper<LendList> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(LendList::getUserId, user.getId());
+        queryWrapper.eq(LendList::getUserId, userId);
         List<LendList> lendLists = lendListService.list(queryWrapper);
         return Result.success(lendLists);
     }
@@ -60,10 +66,13 @@ public class LendListController {
     @PutMapping("/lend-book")
     @ApiOperation(value = "借阅图书")
     public Result<String> lendBook(HttpServletRequest request, Integer barcode) {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            return Result.error(0, "请先登录");
+        // 判断是否登录
+        if (!StpUtil.isLogin()) {
+            return Result.error(0, "登录态失效, 请重新登录");
         }
+        // 获取用户ID
+        int userId = StpUtil.getLoginIdAsInt();
+
         if (barcode == null) {
             return Result.error(0, "参数错误, 请稍后重试");
         }
@@ -73,7 +82,7 @@ public class LendListController {
         if (bookAll.getLendStatus() == 0) {
             return Result.error(0, "该图书已被借出");
         }
-        lendListService.lendBook(user.getId(), barcode);
+        lendListService.lendBook(userId, barcode);
         return Result.success("借阅成功");
     }
 
@@ -85,18 +94,21 @@ public class LendListController {
      */
     @PutMapping("/back-book")
     @ApiOperation(value = "归还图书")
-    public Result<String> backBook(HttpServletRequest request, Integer barcode) {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            return Result.error(0, "请先登录");
+    public Result<String> backBook(Integer barcode) {
+        // 判断是否登录
+        if (!StpUtil.isLogin()) {
+            return Result.error(0, "登录态失效, 请重新登录");
         }
+        // 获取用户ID
+        int userId = StpUtil.getLoginIdAsInt();
+
         if (barcode == null) {
             return Result.error(0, "参数错误, 请稍后重试");
         }
 
         // 判断图书是否为该用户借出
         LambdaQueryWrapper<LendList> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(LendList::getUserId, user.getId());
+        queryWrapper.eq(LendList::getUserId, userId);
         queryWrapper.eq(LendList::getBookId, barcode);
         LendList lendList = lendListService.getOne(queryWrapper);
         if (lendList == null) {
@@ -104,24 +116,27 @@ public class LendListController {
         }
 
         // 执行归还方法
-        lendListService.backBook(user.getId(), barcode, lendList.getCode());
+        lendListService.backBook(userId, barcode, lendList.getCode());
         return Result.success("归还成功");
     }
 
     @PutMapping("/renewal")
     @ApiOperation(value = "续借图书")
-    public Result<String> renewal(HttpServletRequest request, Integer barcode) {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            return Result.error(0, "请先登录");
+    public Result<String> renewal(Integer barcode) {
+        // 判断是否登录
+        if (!StpUtil.isLogin()) {
+            return Result.error(0, "登录态失效, 请重新登录");
         }
+        // 获取用户ID
+        int userId = StpUtil.getLoginIdAsInt();
+
         if (barcode == null) {
             return Result.error(0, "参数错误, 请稍后重试");
         }
 
         // 判断图书是否为该用户借出
         LambdaQueryWrapper<LendList> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(LendList::getUserId, user.getId());
+        queryWrapper.eq(LendList::getUserId, userId);
         queryWrapper.eq(LendList::getBookId, barcode);
         LendList lendList = lendListService.getOne(queryWrapper);
         if (lendList == null) {
