@@ -157,7 +157,7 @@ public class UserController {
 
     /**
      * 用户短信验证码登录
-     * @param session session
+     * @param request 请求对象
      * @param map 接受手机号和验证码参数
      * @return 结果
      */
@@ -187,9 +187,7 @@ public class UserController {
                 user.setStatus(1);
                 userService.save(user);
             }
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            session.setMaxInactiveInterval(86400); // 1天
+            StpUtil.login(user.getId());
 
             // 如果登录成功, 将验证码从redis中删除
             redisTemplate.delete(phone);
@@ -228,6 +226,7 @@ public class UserController {
      * @return 踢出结果
      */
     @PostMapping("/kickout")
+    @ApiOperation(value = "踢出用户下线")
     public Result<String> kickout(Integer userId) {
         StpUtil.kickout(userId);
         return Result.success("成功踢出该用户下线: " + userId);
@@ -264,6 +263,8 @@ public class UserController {
     @PutMapping("/update-info")
     @ApiOperation(value = "更新用户资料")
     public Result<String> updateInfo(@RequestBody User user) {
+        int userId = StpUtil.getLoginIdAsInt();
+        user.setId(userId);
         // 更新用户
         boolean flag = userService.updateById(user);
         if (!flag) {
@@ -283,12 +284,12 @@ public class UserController {
     public Result<String> getIdentityCode(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
         String identityCode = null;
-        User user = (User) request.getSession().getAttribute("user");
 
-        // 判断session中是否有user对象
-        if (user == null) {
+        // 判断是否登录
+        if (!StpUtil.isLogin()) {
             return Result.error(0, "登录态失效, 请重新登录");
         }
+        int userId = StpUtil.getLoginIdAsInt();
 
         // 获取cookie中的identityCode
         for (Cookie cookie: cookies) {
@@ -310,7 +311,7 @@ public class UserController {
                 // 如果不存在重新生成身份码
                 identityCode = UUID.randomUUID().toString().replace("-", "");
                 // 将identityCode存入redis
-                redisTemplate.opsForValue().set(key, user.getId(), 60, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(key, userId, 60, TimeUnit.SECONDS);
                 // 将identityCode存入cookie
                 Cookie cookie = new Cookie("identityCode", identityCode);
                 cookie.setPath("/");
@@ -323,7 +324,7 @@ public class UserController {
             identityCode = UUID.randomUUID().toString().replace("-", "");
             // 将identityCode存入redis
             key = "user:identityCode:" + identityCode;
-            redisTemplate.opsForValue().set(key, user.getId(), 60, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(key, userId, 60, TimeUnit.SECONDS);
             // 将identityCode存入cookie
             Cookie cookie = new Cookie("identityCode", identityCode);
             cookie.setMaxAge(60);
@@ -340,14 +341,17 @@ public class UserController {
     @PutMapping("/report-lose")
     @ApiOperation(value = "用户解挂失")
     public Result<String> reportLose(HttpServletRequest request, String type) {
-        // 获取用户对象
-        User sessionUser = (User) request.getSession().getAttribute("user");
-        // 查询数据库最新数据是否为挂失
-        User mysqlUser = userService.getById(sessionUser.getId());
+        // 判断是否登录
+        if (!StpUtil.isLogin()) {
+            return Result.error(0, "登录态失效, 请重新登录");
+        }
+        // 获取用户ID
+        int userId = StpUtil.getLoginIdAsInt();
 
-        if (sessionUser.getStatus() == 0) {
-            return Result.error(0, "用户状态异常, 请联系管理员");
-        } else if (mysqlUser.getStatus() == 0) {
+        // 查询数据库最新数据是否为挂失
+        User mysqlUser = userService.getById(userId);
+
+        if (mysqlUser.getStatus() == 0) {
             return Result.error(0, "用户状态异常, 请联系管理员");
         }
 
@@ -360,7 +364,7 @@ public class UserController {
             }
             // 设置用户为挂失状态
             User user = new User();
-            user.setId(sessionUser.getId());
+            user.setId(userId);
             user.setStatus(2);
             // 更新用户
             boolean flag = userService.updateById(user);
@@ -375,7 +379,7 @@ public class UserController {
 
             // 设置用户为挂失状态
             User user = new User();
-            user.setId(sessionUser.getId());
+            user.setId(userId);
             user.setStatus(1);
             // 更新用户
             boolean flag = userService.updateById(user);
