@@ -14,17 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import top.mole9630.library.common.Result;
 import top.mole9630.library.entity.BookAll;
 import top.mole9630.library.entity.LendList;
-import top.mole9630.library.entity.User;
 import top.mole9630.library.service.BookAllService;
 import top.mole9630.library.service.LendListService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @RestController
@@ -39,7 +35,6 @@ public class LendListController {
 
     /**
      * 获取借阅列表
-     * @param request 请求
      * @return 借阅列表
      */
     @GetMapping("/get-lend")
@@ -59,13 +54,12 @@ public class LendListController {
 
     /**
      * 借阅图书
-     * @param request 请求
      * @param barcode 图书条形码
      * @return 借阅结果
      */
     @PutMapping("/lend-book")
     @ApiOperation(value = "借阅图书")
-    public Result<String> lendBook(HttpServletRequest request, Integer barcode) {
+    public Result<String> lendBook(Integer barcode) {
         // 判断是否登录
         if (!StpUtil.isLogin()) {
             return Result.error(0, "登录态失效, 请重新登录");
@@ -88,7 +82,6 @@ public class LendListController {
 
     /**
      * 归还图书
-     * @param request 请求
      * @param barcode 图书条形码
      * @return 归还结果
      */
