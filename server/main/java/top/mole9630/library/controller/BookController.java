@@ -6,9 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.mole9630.library.common.Result;
 import top.mole9630.library.entity.BookAll;
 import top.mole9630.library.entity.BookInfo;
@@ -91,5 +89,15 @@ public class BookController {
         queryWrapper.eq(BookAll::getBookId, bookId);
         List<BookAll> bookAllList = bookAllService.getBaseMapper().selectList(queryWrapper);
         return Result.success(bookAllList);
+    }
+
+    @PostMapping("/add-book")
+    @ApiOperation(value = "添加图书")
+    public Result<String> addBook(BookInfo bookInfo) {
+        boolean saveStatus = bookInfoService.save(bookInfo);
+        if (saveStatus) {
+            return Result.success("添加成功");
+        }
+        return Result.error(0, "添加失败");
     }
 }

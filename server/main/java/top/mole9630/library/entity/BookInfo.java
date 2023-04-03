@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @ApiModel(value = "图书信息")
@@ -53,9 +54,9 @@ public class BookInfo implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT) // 新增时自动填充
-    private String createTime;
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE) // 新增或更新时自动填充
-    private String updateTime;
+    private LocalDateTime updateTime;
 }

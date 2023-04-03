@@ -77,9 +77,7 @@ public class UserController {
      */
     @PostMapping("/register")
     @ApiOperation(value = "用户注册")
-    public Result<User> register(@RequestBody User user, String phoneCAPTCHA) {
-        // 获取手机号
-        String phone = user.getPhone();
+    public Result<User> register(String phone, String password, String phoneCAPTCHA) {
         // 从redis中获取验证码
         String key = "PhoneCAPTCHA_" + phone;
         String redisCode = (String) redisTemplate.opsForValue().get(key);
@@ -98,10 +96,11 @@ public class UserController {
         }
 
         // 将页面提交的密码password进行md5加密处理
-        String password = user.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());
 
         // 将加密后的密码设置到user对象中并初始化相关值
+        User user = new User();
+        user.setPhone(phone);
         user.setPassword(password);
         user.setDeposit(0);
         user.setMoney(0);
