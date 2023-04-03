@@ -91,10 +91,30 @@ public class BookController {
         return Result.success(bookAllList);
     }
 
-    @PostMapping("/add-book")
+    /**
+     * 添加图书
+     * @param bookInfo 图书信息
+     * @return 添加结果
+     */
+    @PostMapping("/save-book")
     @ApiOperation(value = "添加图书")
-    public Result<String> addBook(BookInfo bookInfo) {
+    public Result<String> saveBook(BookInfo bookInfo) {
         boolean saveStatus = bookInfoService.save(bookInfo);
+        if (saveStatus) {
+            return Result.success("添加成功");
+        }
+        return Result.error(0, "添加失败");
+    }
+
+    /**
+     * 添加图书馆藏信息
+     * @param bookAll 图书馆藏信息
+     * @return 添加结果
+     */
+    @PostMapping("/save-book-all")
+    @ApiOperation(value = "添加图书馆藏信息")
+    public Result<String> saveBookAll(BookAll bookAll) {
+        boolean saveStatus = bookAllService.save(bookAll);
         if (saveStatus) {
             return Result.success("添加成功");
         }

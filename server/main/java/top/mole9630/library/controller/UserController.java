@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.DynamicParameter;
 import com.github.xiaoymin.knife4j.annotations.DynamicParameters;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -14,7 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import top.mole9630.library.common.Result;
-import top.mole9630.library.dto.UserLogin;
+import top.mole9630.library.dto.UserLoginDto;
 import top.mole9630.library.entity.User;
 import top.mole9630.library.service.UserService;
 import top.mole9630.library.utils.ValidateCodeUtils;
@@ -22,8 +21,6 @@ import top.mole9630.library.utils.ValidateCodeUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.net.HttpCookie;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -72,43 +69,42 @@ public class UserController {
 
     /**
      * 用户注册
-     * @param user 用户对象
-     * @param phoneCAPTCHA 手机验证码
+     * @param userLoginDto 用户登录对象
      * @return 结果
      */
     @PostMapping("/register")
     @ApiOperation(value = "用户注册")
-    public Result<User> register(@RequestBody UserLogin userLogin) {
+    public Result<User> register(@RequestBody UserLoginDto userLoginDto) {
         // 从redis中获取验证码
-        String key = "PhoneCAPTCHA_" + userLogin.getPhone();
+        String key = "PhoneCAPTCHA_" + userLoginDto.getPhone();
         String redisCode = (String) redisTemplate.opsForValue().get(key);
 
         // 判断验证码是否正确
-        if (StringUtils.isEmpty(userLogin.getPhoneCAPTCHA()) || !userLogin.getPhoneCAPTCHA().equals(redisCode)) {
+        if (StringUtils.isEmpty(userLoginDto.getPhoneCAPTCHA()) || !userLoginDto.getPhoneCAPTCHA().equals(redisCode)) {
             return Result.error(0, "手机验证码错误, 请重新输入");
         }
 
         // 判断手机号是否已经注册
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getPhone, userLogin.getPhone());
+        queryWrapper.eq(User::getPhone, userLoginDto.getPhone());
         User u = userService.getOne(queryWrapper);
         if (u != null) {
             return Result.error(0, "该手机号已经注册, 请重新输入");
         }
 
         // 将页面提交的密码password进行md5加密处理
-        String password = DigestUtils.md5DigestAsHex(userLogin.getPassword().getBytes());
+        String password = DigestUtils.md5DigestAsHex(userLoginDto.getPassword().getBytes());
 
         // 将加密后的密码设置到user对象中并初始化相关值
         User user = new User();
-        user.setPhone(userLogin.getPhone());
+        user.setPhone(userLoginDto.getPhone());
         user.setPassword(password);
         user.setDeposit(0);
         user.setMoney(0);
         user.setStatus(1);
 
         // 如果注册成功, 将验证码从redis中删除
-        redisTemplate.delete(userLogin.getPhone());
+        redisTemplate.delete(userLoginDto.getPhone());
 
         // 将用户信息保存到数据库中
         userService.save(user);
