@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import top.mole9630.library.common.Result;
+import top.mole9630.library.dto.UserLogin;
 import top.mole9630.library.entity.User;
 import top.mole9630.library.service.UserService;
 import top.mole9630.library.utils.ValidateCodeUtils;
@@ -77,37 +78,37 @@ public class UserController {
      */
     @PostMapping("/register")
     @ApiOperation(value = "用户注册")
-    public Result<User> register(String phone, String password, String phoneCAPTCHA) {
+    public Result<User> register(@RequestBody UserLogin userLogin) {
         // 从redis中获取验证码
-        String key = "PhoneCAPTCHA_" + phone;
+        String key = "PhoneCAPTCHA_" + userLogin.getPhone();
         String redisCode = (String) redisTemplate.opsForValue().get(key);
 
         // 判断验证码是否正确
-        if (StringUtils.isEmpty(phoneCAPTCHA) || !phoneCAPTCHA.equals(redisCode)) {
+        if (StringUtils.isEmpty(userLogin.getPhoneCAPTCHA()) || !userLogin.getPhoneCAPTCHA().equals(redisCode)) {
             return Result.error(0, "手机验证码错误, 请重新输入");
         }
 
         // 判断手机号是否已经注册
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getPhone, phone);
+        queryWrapper.eq(User::getPhone, userLogin.getPhone());
         User u = userService.getOne(queryWrapper);
         if (u != null) {
             return Result.error(0, "该手机号已经注册, 请重新输入");
         }
 
         // 将页面提交的密码password进行md5加密处理
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        String password = DigestUtils.md5DigestAsHex(userLogin.getPassword().getBytes());
 
         // 将加密后的密码设置到user对象中并初始化相关值
         User user = new User();
-        user.setPhone(phone);
+        user.setPhone(userLogin.getPhone());
         user.setPassword(password);
         user.setDeposit(0);
         user.setMoney(0);
         user.setStatus(1);
 
         // 如果注册成功, 将验证码从redis中删除
-        redisTemplate.delete(phone);
+        redisTemplate.delete(userLogin.getPhone());
 
         // 将用户信息保存到数据库中
         userService.save(user);
