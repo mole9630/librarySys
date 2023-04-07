@@ -120,4 +120,34 @@ public class BookController {
         }
         return Result.error(0, "添加失败");
     }
+
+    /**
+     * 修改图书信息
+     * @param bookInfo 图书信息
+     * @return 修改结果
+     */
+    @PutMapping("/update-book")
+    @ApiOperation(value = "修改图书信息")
+    public Result<String> updateBook(BookInfo bookInfo) {
+        boolean updateStatus = bookInfoService.updateById(bookInfo);
+        if (updateStatus) {
+            return Result.success("修改成功");
+        }
+        return Result.error(0, "修改失败");
+    }
+
+    /**
+     * 修改图书馆藏信息
+     * @param bookAll 图书馆藏信息
+     * @return 修改结果
+     */
+    @PutMapping("/update-book-all")
+    @ApiOperation(value = "修改图书馆藏信息")
+    public Result<String> updateBookAll(BookAll bookAll) {
+        boolean updateStatus = bookAllService.updateById(bookAll);
+        if (updateStatus) {
+            return Result.success("修改成功");
+        }
+        return Result.error(0, "修改失败");
+    }
 }
