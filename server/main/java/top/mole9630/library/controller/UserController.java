@@ -206,7 +206,6 @@ public class UserController {
 
     /**
      * 用户退出登录
-     * @param request 请求
      * @return 退出登录结果
      */
     @PostMapping("/logout")

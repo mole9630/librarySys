@@ -150,4 +150,34 @@ public class BookController {
         }
         return Result.error(0, "修改失败");
     }
+
+    /**
+     * 删除图书信息
+     * @param bookId 图书id
+     * @return 删除结果
+     */
+    @PutMapping("/delete-book")
+    @ApiOperation(value = "删除图书信息")
+    public Result<String> deleteBook(Integer bookId) {
+        boolean deleteStatus = bookInfoService.removeById(bookId);
+        if (deleteStatus) {
+            return Result.success("删除成功");
+        }
+        return Result.error(0, "删除失败");
+    }
+
+    /**
+     * 删除图书馆藏信息
+     * @param bookAllId 图书馆藏id
+     * @return 删除结果
+     */
+    @PutMapping("/delete-book-all")
+    @ApiOperation(value = "删除图书馆藏信息")
+    public Result<String> deleteBookAll(Integer bookAllId) {
+        boolean deleteStatus = bookAllService.removeById(bookAllId);
+        if (deleteStatus) {
+            return Result.success("删除成功");
+        }
+        return Result.error(0, "删除失败");
+    }
 }
