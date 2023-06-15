@@ -29,10 +29,10 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    public static <T> Result<T> success(T object, String message) {
+    public static <T> Result<T> success(T object, String msg) {
         Result<T> result = new Result<T>();
         result.code = Code.GLOBAL_SUCCESS;
-        result.message = message;
+        result.message = msg;
         result.data = object;
         return result;
     }

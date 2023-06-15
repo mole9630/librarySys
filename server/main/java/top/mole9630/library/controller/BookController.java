@@ -101,7 +101,7 @@ public class BookController {
     public Result<String> saveBook(BookInfo bookInfo) {
         boolean saveStatus = bookInfoService.save(bookInfo);
         if (saveStatus) {
-            return Result.success("添加成功");
+            return Result.success(null, "添加成功");
         }
         return Result.error(0, "添加失败");
     }
@@ -116,7 +116,7 @@ public class BookController {
     public Result<String> saveBookAll(BookAll bookAll) {
         boolean saveStatus = bookAllService.save(bookAll);
         if (saveStatus) {
-            return Result.success("添加成功");
+            return Result.success(null, "添加成功");
         }
         return Result.error(0, "添加失败");
     }
@@ -131,7 +131,7 @@ public class BookController {
     public Result<String> updateBook(BookInfo bookInfo) {
         boolean updateStatus = bookInfoService.updateById(bookInfo);
         if (updateStatus) {
-            return Result.success("修改成功");
+            return Result.success(null, "修改成功");
         }
         return Result.error(0, "修改失败");
     }
@@ -146,7 +146,7 @@ public class BookController {
     public Result<String> updateBookAll(BookAll bookAll) {
         boolean updateStatus = bookAllService.updateById(bookAll);
         if (updateStatus) {
-            return Result.success("修改成功");
+            return Result.success(null, "修改成功");
         }
         return Result.error(0, "修改失败");
     }
@@ -161,7 +161,7 @@ public class BookController {
     public Result<String> deleteBook(Integer bookId) {
         boolean deleteStatus = bookInfoService.removeById(bookId);
         if (deleteStatus) {
-            return Result.success("删除成功");
+            return Result.success(null, "删除成功");
         }
         return Result.error(0, "删除失败");
     }
@@ -176,7 +176,7 @@ public class BookController {
     public Result<String> deleteBookAll(Integer bookAllId) {
         boolean deleteStatus = bookAllService.removeById(bookAllId);
         if (deleteStatus) {
-            return Result.success("删除成功");
+            return Result.success(null, "删除成功");
         }
         return Result.error(0, "删除失败");
     }

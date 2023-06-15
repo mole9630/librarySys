@@ -14,6 +14,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import top.mole9630.library.common.Result;
 import top.mole9630.library.dto.UserLoginDto;
+import top.mole9630.library.dto.UserUpdatePasswordDto;
 import top.mole9630.library.entity.User;
 import top.mole9630.library.service.UserService;
 import top.mole9630.library.utils.ValidateCodeUtils;
@@ -37,6 +38,7 @@ public class UserController {
 
     /**
      * 发送手机验证码
+     *
      * @param user 用户对象(主要接收手机号参数)
      * @return 结果
      */
@@ -69,6 +71,7 @@ public class UserController {
 
     /**
      * 用户注册
+     *
      * @param userLoginDto 用户登录对象
      * @return 结果
      */
@@ -115,8 +118,9 @@ public class UserController {
 
     /**
      * 用户登录
+     *
      * @param request 请求对象
-     * @param user 用户对象(主要接收手机号和密码参数)
+     * @param user    用户对象(主要接收手机号和密码参数)
      * @return 结果
      */
     @PostMapping("/login")
@@ -148,13 +152,14 @@ public class UserController {
 
         // 6.登录成功, 将员Iid存入Session并返回登录成功结果
         StpUtil.login(u.getId());
-        return Result.success(u);
+        return Result.success(u, "登录成功");
     }
 
     /**
      * 用户短信验证码登录
+     *
      * @param request 请求对象
-     * @param map 接受手机号和验证码参数
+     * @param map     接受手机号和验证码参数
      * @return 结果
      */
     @PostMapping("/codeMsgLogin")
@@ -188,35 +193,38 @@ public class UserController {
             // 如果登录成功, 将验证码从redis中删除
             redisTemplate.delete(phone);
 
-            return Result.success(user);
+            return Result.success(user, "登录成功");
         }
         // 验证码错误, 登录失败
-        return Result.error(0 ,"登录失败");
+        return Result.error(0, "登录失败");
     }
 
     /**
      * 判断用户是否登录
+     *
      * @return 是否登录结果
      */
     @GetMapping("/is-login")
     @ApiOperation(value = "判断用户是否登录")
     public Result<String> isLogin() {
-        return Result.success(StpUtil.isLogin() ? "已登录" : "未登录");
+        return Result.success(null, StpUtil.isLogin() ? "已登录" : "未登录");
     }
 
     /**
      * 用户退出登录
+     *
      * @return 退出登录结果
      */
     @PostMapping("/logout")
     @ApiOperation(value = "用户退出登录")
     public Result<String> logout() {
         StpUtil.logout();
-        return Result.success("退出成功");
+        return Result.success(null, "退出成功");
     }
 
     /**
      * 踢出用户下线
+     *
      * @param userId 用户id
      * @return 踢出结果
      */
@@ -224,30 +232,44 @@ public class UserController {
     @ApiOperation(value = "踢出用户下线")
     public Result<String> kickout(Integer userId) {
         StpUtil.kickout(userId);
-        return Result.success("成功踢出该用户下线: " + userId);
+        return Result.success(null, "成功踢出该用户下线: " + userId);
     }
 
     /**
-     * 用户解挂失
+     * 修改密码
      * @param request 请求
-     * @param password 密码
-     * @return 解挂失结果
+     * @param userUpdatePasswordDto 修改密码对象
+     * @return 修改结果
      */
     @PutMapping("/update-password")
-    @ApiOperation(value = "用户解挂失")
-    public Result<String> updatePassword(HttpServletRequest request, String password) {
+    @ApiOperation(value = "修改密码")
+    public Result<String> updatePassword(HttpServletRequest request, @RequestBody UserUpdatePasswordDto userUpdatePasswordDto) {
         // 根据id查询用户
-        User user = (User) request.getSession().getAttribute("user");
+        int id = StpUtil.getLoginIdAsInt();
+        User user = userService.getById(id);
+        // 获取数据库内的老密码
+        String password = user.getPassword();
         // 将页面提交的密码password进行md5加密处理
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
-        // 将页面提交的密码设置到查询到的用户对象中
-        user.setPassword(password);
-        // 更新用户
-        boolean flag = userService.updateById(user);
-        if (!flag) {
-            return Result.error(0, "密码修改失败");
+        String oldPassword = DigestUtils.md5DigestAsHex(userUpdatePasswordDto.getOldPassword().getBytes());
+        // 用户输入的老密码和数据库内的老密码是否一致
+        if (password.equals(oldPassword)) {
+            if (userUpdatePasswordDto.getNewPassword().equals(userUpdatePasswordDto.getReNewPassword())) {
+                // 将新密码进行md5加密
+                String newPassword = DigestUtils.md5DigestAsHex(userUpdatePasswordDto.getNewPassword().getBytes());
+                // 将页面提交的密码加密设置到查询到的用户对象中
+                user.setPassword(newPassword);
+                // 更新用户
+                boolean flag = userService.updateById(user);
+                if (!flag) {
+                    return Result.error(0, "密码修改失败");
+                }
+                return Result.success(null, "密码修改成功");
+            } else {
+                return Result.error(0, "两次密码输入不一致");
+            }
+        } else {
+            return Result.error(0, "旧密码输入错误, 请重试");
         }
-        return Result.success("密码修改成功");
     }
 
 /**
@@ -265,7 +287,7 @@ public class UserController {
         if (!flag) {
             return Result.error(0, "个人资料修改失败");
         }
-        return Result.success("个人资料修改成功");
+        return Result.success(null, "个人资料修改成功");
     }
 
     /**
@@ -363,7 +385,7 @@ public class UserController {
             user.setStatus(2);
             // 更新用户
             boolean flag = userService.updateById(user);
-            return flag ? Result.success("挂失成功") : Result.error(0, "挂失失败, 请稍后重试");
+            return flag ? Result.success(null, "挂失成功") : Result.error(0, "挂失失败, 请稍后重试");
 
         } else if (type.equals("unlose")) {
             // 解挂
@@ -378,7 +400,7 @@ public class UserController {
             user.setStatus(1);
             // 更新用户
             boolean flag = userService.updateById(user);
-            return flag ? Result.success("解挂成功") : Result.error(0, "解挂失败, 请稍后重试");
+            return flag ? Result.success(null, "解挂成功") : Result.error(0, "解挂失败, 请稍后重试");
         } else {
             return Result.error(0, "服务器繁忙, 请稍后重试");
         }

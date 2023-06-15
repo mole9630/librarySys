@@ -77,7 +77,7 @@ public class LendListController {
             return Result.error(0, "该图书已被借出");
         }
         lendListService.lendBook(userId, barcode);
-        return Result.success("借阅成功");
+        return Result.success(null, "借阅成功");
     }
 
     /**
@@ -110,7 +110,7 @@ public class LendListController {
 
         // 执行归还方法
         lendListService.backBook(userId, barcode, lendList.getCode());
-        return Result.success("归还成功");
+        return Result.success(null, "归还成功");
     }
 
     @PutMapping("/renewal")
@@ -156,6 +156,6 @@ public class LendListController {
         lendList.setBackDate(sdf.format(cal.getTime()));
         lendListService.updateById(lendList);
 
-        return Result.success("续借成功");
+        return Result.success(null, "续借成功");
     }
 }

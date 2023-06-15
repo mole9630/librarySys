@@ -1,5 +1,6 @@
 package top.mole9630.library.common;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -32,6 +33,13 @@ public class GlobalExceptionHandler {
             return Result.error(0, "已存在:" + split[2] + ", 请更换名称后重试");
         }
         return Result.error(0 ,"未知错误, 请联系管理员");
+    }
+
+
+    @ExceptionHandler(NotLoginException.class) // 拦截指定异常
+    public Result<String> exceptionHandler(NotLoginException e) {
+        log.error("用户未登录: {}", e.getMessage());
+        return Result.error(0, "用户登录态失效, 请重新登录");
     }
 
     @ExceptionHandler(CustomException.class) // 拦截指定异常
